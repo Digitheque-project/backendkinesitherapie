@@ -6,16 +6,16 @@ export class RendezVous {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: 'date' })
+  @Column({ type: 'date', nullable: true })
   date: string;
 
-  @Column({ type: 'time' })
+  @Column({ type: 'time', nullable: true })
   heureDebut: string;
 
   @Column({ type: 'time', nullable: true })
   heureFin: string;
 
-  @Column()
+  @Column({ nullable: true })
   motif: string;
 
   @Column({ nullable: true })
@@ -27,10 +27,10 @@ export class RendezVous {
   @Column({ type: 'text', nullable: true })
   notes: string;
 
-  @ManyToOne(() => Patient, { eager: true })
+  @ManyToOne(() => Patient, { eager: true, nullable: true })
   @JoinColumn({ name: 'patientId' })
   patient: Patient;
 
-  @Column()
+  @Column({ nullable: true })
   patientId: number;
 }
