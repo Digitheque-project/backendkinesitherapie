@@ -6,10 +6,10 @@ export class Archive {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: 'date' })
+  @Column({ type: 'date', nullable: true })
   dateArchivage: string;
 
-  @Column()
+  @Column({ nullable: true })
   motif: string;
 
   @Column({ type: 'text', nullable: true })
@@ -18,16 +18,16 @@ export class Archive {
   @Column({ type: 'text', nullable: true })
   exercicesRealises: string;
 
-  @Column({ type: 'int', default: 0 })
+  @Column({ type: 'int', default: 0, nullable: true })
   progressionFinale: number;
 
   @Column({ type: 'text', nullable: true })
   notes: string;
 
-  @ManyToOne(() => Patient, { eager: true })
+  @ManyToOne(() => Patient, { eager: true, nullable: true })
   @JoinColumn({ name: 'patientId' })
   patient: Patient;
 
-  @Column()
+  @Column({ nullable: true })
   patientId: number;
 }
