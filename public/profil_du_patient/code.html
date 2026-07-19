@@ -1,0 +1,373 @@
+<html><head><meta charset="utf-8"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Manrope:wght@400;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+                "surface-tint": "#13677b",
+                "inverse-surface": "#2d3133",
+                "secondary-container": "#86f0f3",
+                "on-secondary-fixed": "#002021",
+                "surface-container": "#eceef0",
+                "secondary-fixed-dim": "#6bd7da",
+                "secondary": "#00696c",
+                "surface-container-highest": "#e0e3e5",
+                "on-primary-fixed": "#001f27",
+                "outline-variant": "#bfc8cc",
+                "surface-dim": "#d8dadc",
+                "inverse-on-surface": "#eff1f3",
+                "primary-fixed-dim": "#8bd1e8",
+                "inverse-primary": "#8bd1e8",
+                "tertiary-container": "#226150",
+                "primary": "#004655",
+                "tertiary-fixed-dim": "#95d3be",
+                "secondary-fixed": "#89f3f6",
+                "on-tertiary-container": "#9bd9c4",
+                "tertiary-fixed": "#b0efda",
+                "on-primary-container": "#91d7ee",
+                "on-primary-fixed-variant": "#004e5f",
+                "surface": "#f7f9fb",
+                "surface-container-high": "#e6e8ea",
+                "outline": "#6f797c",
+                "on-secondary": "#ffffff",
+                "on-tertiary-fixed-variant": "#0b5040",
+                "error": "#ba1a1a",
+                "primary-container": "#005f73",
+                "on-surface-variant": "#3f484c",
+                "on-primary": "#ffffff",
+                "on-secondary-fixed-variant": "#004f51",
+                "primary-fixed": "#b2ebff",
+                "on-tertiary": "#ffffff",
+                "on-error": "#ffffff",
+                "on-tertiary-fixed": "#002018",
+                "on-error-container": "#93000a",
+                "on-secondary-container": "#006e70",
+                "tertiary": "#00493a",
+                "error-container": "#ffdad6",
+                "surface-bright": "#f7f9fb",
+                "surface-container-low": "#f2f4f6",
+                "on-surface": "#191c1e",
+                "background": "#f7f9fb",
+                "surface-variant": "#e0e3e5",
+                "surface-container-lowest": "#ffffff",
+                "on-background": "#191c1e"
+        },
+        "borderRadius": {
+                "DEFAULT": "0.25rem",
+                "lg": "0.5rem",
+                "xl": "0.75rem",
+                "full": "9999px"
+        },
+        "spacing": {
+                "card-padding": "1.25rem",
+                "container-margin": "2rem",
+                "stack-sm": "0.5rem",
+                "gutter": "1.5rem",
+                "sidebar-width": "260px",
+                "stack-md": "1rem"
+        },
+        "fontFamily": {
+                "label-caps": ["Inter"],
+                "status-badge": ["Inter"],
+                "display-lg": ["Manrope"],
+                "body-lg": ["Inter"],
+                "title-sm": ["Manrope"],
+                "headline-md": ["Manrope"],
+                "body-md": ["Inter"]
+        },
+        "fontSize": {
+                "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                "status-badge": ["11px", {"lineHeight": "12px", "fontWeight": "700"}],
+                "display-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                "title-sm": ["18px", {"lineHeight": "24px", "fontWeight": "600"}],
+                "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+        }
+      },
+    },
+  }
+</script>
+</head><body class="bg-background text-on-surface font-body-md min-h-screen flex">
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 h-full w-64 border-r border-slate-200 bg-white flex flex-col z-50">
+<div class="p-6 flex items-center gap-3">
+<div class="w-10 h-10 bg-primary-container rounded-lg flex items-center justify-center text-white">
+<span class="material-symbols-outlined" data-icon="clinical_notes">clinical_notes</span>
+</div>
+<div>
+<h1 class="text-lg font-bold text-[#005F73] font-manrope">CHU Andrainjato</h1>
+<p class="text-xs text-slate-500 font-inter">Clinical Management</p>
+</div>
+</div>
+<nav class="flex-1 mt-4">
+<a class="flex items-center gap-3 px-6 py-3 text-slate-500 hover:bg-slate-50 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-manrope text-sm font-medium">Tableau de bord</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-3 text-[#005F73] bg-teal-50/50 border-l-4 border-[#005F73] font-semibold" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span class="font-manrope text-sm">Patients</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-3 text-slate-500 hover:bg-slate-50 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="calendar_today">calendar_today</span>
+<span class="font-manrope text-sm font-medium">Calendrier</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-3 text-slate-500 hover:bg-slate-50 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="font-manrope text-sm font-medium">Archives</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-3 text-slate-500 hover:bg-slate-50 transition-colors mt-auto mb-6" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-manrope text-sm font-medium">Paramètres</span>
+</a>
+</nav>
+</aside>
+<div class="flex-1 ml-64 flex flex-col min-h-screen">
+<!-- TopNavBar -->
+<header class="sticky top-0 z-40 w-full h-16 bg-white/80 backdrop-blur-md border-b border-slate-200 px-8 flex justify-between items-center">
+<div class="flex items-center gap-4 bg-slate-100 px-4 py-2 rounded-full w-96">
+<span class="material-symbols-outlined text-slate-400 text-sm" data-icon="search">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm w-full" placeholder="Rechercher un patient..." type="text"/>
+</div>
+<div class="flex items-center gap-6">
+<button class="relative text-slate-500 hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute -top-1 -right-1 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<button class="text-slate-500 hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="help_outline">help_outline</span>
+</button>
+<div class="flex items-center gap-3 pl-4 border-l border-slate-200">
+<div class="text-right">
+<p class="text-sm font-bold text-on-surface leading-none">Dr. Jean Dupont</p>
+<p class="text-xs text-slate-500 uppercase tracking-wider mt-1">Orthopédiste</p>
+</div>
+<img alt="Doctor Profile" class="w-10 h-10 rounded-full object-cover border-2 border-primary-container" data-alt="professional portrait of a male doctor in white coat with a friendly expression and glasses" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBh2rIrrBiaeOYA4JmqkN66hPnNGpSW_riS5FOUIXSE-JVcHU7Lh4JMOgQReozarvror5dqk40qxXSDq2SQ2vOyQnKxcKwnUllQDu77hrYkQ0VJlTXjMtQuRJPPstuZS5PlOw7-QJcMRnRtl84cScCtH_El4NOIjpkAcXaL04gfIVDHnDL6plx-IE5GKMyFG_4hSuRAORZciUj-MN2zrNSSCYJKiSlWxFBFjkArUcqTdcYfbl1TgKuTkKjmnBJb7_UjZY7srES_6hg"/>
+</div>
+</div>
+</header>
+<main class="p-8 space-y-6 max-w-7xl mx-auto w-full">
+<!-- Patient Header -->
+<section class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 flex items-start gap-8">
+<div class="relative">
+<img alt="Elena Rodriguez" class="w-32 h-32 rounded-xl object-cover" data-alt="close-up portrait of a middle-aged woman with thoughtful expression in soft natural lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBXQp5A8VHZrpwL1YS7jE6ipLD1Vxpdqi5D-9SqTx7r5R85NUyN7m9n6kDV2plKi_0cksqp9etP7-6zFlm5FlOZeFqT6bBqI4kobDuwc_Ru7c-x7e7m8HT02LcxZrpeCb1b_RvW1rp3-uSt18deofEtQ4VZc823SAKNze_wVeqdTZn4UAHkjRCl1tLhJO4Qabfryb1yyHpbOGmUUMiLbvGG7hH0QWRfbA-wGhYPhybzTZcISyz5e657ZOAwmmJb7HsblEMadW8SjQY"/>
+<span class="absolute -bottom-2 -right-2 bg-teal-500 text-white p-1 rounded-full border-4 border-white">
+<span class="material-symbols-outlined text-sm" data-icon="check_circle" data-weight="fill">check_circle</span>
+</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<div>
+<h2 class="font-display-lg text-display-lg text-[#005F73]">Elena Rodriguez</h2>
+<p class="text-slate-500 font-medium">ID: #PT-8829 • 42 ans • Femme</p>
+</div>
+<div class="flex gap-2">
+<span class="bg-teal-50 text-teal-700 px-3 py-1 rounded-full text-status-badge font-status-badge uppercase tracking-tight">Post-Opératoire</span>
+<span class="bg-primary-container text-white px-3 py-1 rounded-full text-status-badge font-status-badge uppercase tracking-tight">Phase 2</span>
+</div>
+</div>
+<div class="grid grid-cols-4 gap-6 mt-6 border-t border-slate-100 pt-6">
+<div>
+<p class="text-label-caps font-label-caps text-slate-400 uppercase">Dernière visite</p>
+<p class="font-title-sm text-on-surface mt-1">12 Octobre 2023</p>
+</div>
+<div>
+<p class="text-label-caps font-label-caps text-slate-400 uppercase">Chirurgie</p>
+<p class="font-title-sm text-on-surface mt-1">LCA Genou Droit</p>
+</div>
+<div>
+<p class="text-label-caps font-label-caps text-slate-400 uppercase">Contact</p>
+<p class="font-title-sm text-on-surface mt-1">+261 34 56 789 01</p>
+</div>
+<div>
+<p class="text-label-caps font-label-caps text-slate-400 uppercase">Assurance</p>
+<p class="font-title-sm text-on-surface mt-1">ARO - Gold Plan</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Main Layout Grid -->
+<div class="grid grid-cols-12 gap-6">
+<!-- Left Column: Observations & Exercises -->
+<div class="col-span-12 lg:col-span-8 space-y-6">
+<!-- Observation Clinique -->
+<div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+<div class="flex items-center justify-between mb-4">
+<h3 class="font-headline-md text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-[#005F73]" data-icon="edit_note">edit_note</span>
+                                Observation Clinique
+                            </h3>
+<span class="text-xs text-slate-400">Dernière modification: Aujourd'hui, 09:45</span>
+</div>
+<div class="relative group">
+<textarea class="w-full h-40 p-4 rounded-lg bg-surface border border-slate-200 focus:border-primary-container focus:ring-1 focus:ring-primary-container font-body-md text-on-surface resize-none leading-relaxed" placeholder="Saisir les observations du jour...">La patiente présente une amélioration significative de la mobilité articulaire. La flexion du genou droit atteint 110° sans douleur majeure. Légère inflammation résiduelle sur le site de l'incision. Continuez le protocole RICE. Bonne réponse aux exercices de proprioception. Prochaine étape : renforcement isométrique du quadriceps.</textarea>
+<div class="absolute bottom-4 right-4 flex gap-2">
+<button class="p-2 hover:bg-slate-100 rounded-md text-slate-400">
+<span class="material-symbols-outlined text-lg" data-icon="mic">mic</span>
+</button>
+<button class="bg-primary-container text-white px-4 py-1 rounded-md text-sm font-semibold shadow-sm hover:bg-[#004e5f] transition-all">Enregistrer</button>
+</div>
+</div>
+</div>
+<!-- Assigned Exercises -->
+<div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+<div class="flex items-center justify-between mb-6">
+<h3 class="font-headline-md text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-[#005F73]" data-icon="fitness_center">fitness_center</span>
+                                Exercices Assignés
+                            </h3>
+<button class="text-primary font-semibold text-sm flex items-center gap-1 hover:underline">
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span>
+                                Ajouter un exercice
+                            </button>
+</div>
+<div class="space-y-3">
+<!-- Exercise Item -->
+<div class="flex items-center p-4 bg-surface-container-low rounded-lg border border-slate-100 group hover:border-teal-200 transition-colors">
+<div class="w-12 h-12 bg-white rounded-md overflow-hidden border border-slate-200">
+<img alt="Quad sets" class="w-full h-full object-cover" data-alt="fitness illustration showing a person doing quad sets exercise on a mat" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBgpl8NcInkCyACOY7T88eSQnrvbjCTGyXoAemaU1_0ymHpvZUnshStj9IJDHd5KeD1eNlolcFLITSW9pZtFRDaULwYUkNy5iD0BPGw4onICZu68dw2HqBZ1PE_imIicb8UAIfX_2YWjfAH7HnDAuBzN1xYwlk4swMRY9s2uR2E2ISgb-CRk34s_kwLthZaS75PYQcqH2YDl9cQ7SDwgD2UPH9KS0F6SW3kk1tNkzUNmOJQmgALEWDXC4bg0jXLQfo9Dc8ZUM_agWo"/>
+</div>
+<div class="ml-4 flex-1">
+<h4 class="font-bold text-on-surface">Quad Sets (Contraction quadriceps)</h4>
+<p class="text-xs text-slate-500 uppercase tracking-wide">3 Séries x 10 Répétitions • Quotidien</p>
+</div>
+<div class="flex items-center gap-4">
+<div class="w-32 h-2 bg-slate-200 rounded-full overflow-hidden">
+<div class="bg-teal-500 h-full w-[85%]"></div>
+</div>
+<span class="text-xs font-bold text-teal-600">85%</span>
+<button class="text-slate-400 hover:text-error transition-colors">
+<span class="material-symbols-outlined" data-icon="delete">delete</span>
+</button>
+</div>
+</div>
+<!-- Exercise Item -->
+<div class="flex items-center p-4 bg-surface-container-low rounded-lg border border-slate-100 group hover:border-teal-200 transition-colors">
+<div class="w-12 h-12 bg-white rounded-md overflow-hidden border border-slate-200">
+<img alt="Heel slides" class="w-full h-full object-cover" data-alt="high contrast studio photo of physical therapy equipment on a clean white background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBydQ34Cgg3709XMzy55IYe8x9hw1JIffubzgmYlhUAKw8fyctWYOoKx4X0VPMUeswjyFqszqk6H21OtDvA70AoyTV0GmZy-b7sFkMvvnXqL4G1sXbl36-144vn77XXcCqfypPPC9QBQj3A9Lyzs8fov7i5tyihzmc1ErrgTQs-Orc2q8kd7UnAtpt0_GEMDLeXRRAXcsc9v0RGXcgJmkAkjRLdP8F2RjTat_aDg0DvBaD1ZE6tEKmekR5M2ACJYoCKLcufUmZOcp8"/>
+</div>
+<div class="ml-4 flex-1">
+<h4 class="font-bold text-on-surface">Heel Slides (Glissements de talon)</h4>
+<p class="text-xs text-slate-500 uppercase tracking-wide">2 Séries x 15 Répétitions • Matin &amp; Soir</p>
+</div>
+<div class="flex items-center gap-4">
+<div class="w-32 h-2 bg-slate-200 rounded-full overflow-hidden">
+<div class="bg-teal-500 h-full w-[60%]"></div>
+</div>
+<span class="text-xs font-bold text-teal-600">60%</span>
+<button class="text-slate-400 hover:text-error transition-colors">
+<span class="material-symbols-outlined" data-icon="delete">delete</span>
+</button>
+</div>
+</div>
+<!-- Exercise Item -->
+<div class="flex items-center p-4 bg-surface-container-low rounded-lg border border-slate-100 group hover:border-teal-200 transition-colors">
+<div class="w-12 h-12 bg-white rounded-md overflow-hidden border border-slate-200">
+<img alt="Standing calf stretch" class="w-full h-full object-cover" data-alt="close up of legs performing a calf stretch against a wall in a bright gym setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCPLHaZkVKuU1YY4lnG0RS5IQgxYh0BAL7K02JU9TeECDYOTsM6aiWFzKkt2VG8w1wnkS47Wa-o_iCw-qnXB4JjyfMCx541o2EHEugUUKVEBTFhDEv8LdlfgjBs1E-TWR5jWFMSvwoBmG5h9jnaJDT_0qhqNMfiCK9W2vgf_aaXESCXS301uooi7BQRPYqVr8A1P3DTHNn32jbs_aRI6fIXynH_EqDs3zJxia1WMmp2IqfnJGDuQilQ-vkJTjgMCQOToAWAX6BKjIU"/>
+</div>
+<div class="ml-4 flex-1">
+<h4 class="font-bold text-on-surface">Standing Calf Stretch</h4>
+<p class="text-xs text-slate-500 uppercase tracking-wide">30 Secondes x 3 • 3 fois par jour</p>
+</div>
+<div class="flex items-center gap-4">
+<div class="w-32 h-2 bg-slate-200 rounded-full overflow-hidden">
+<div class="bg-teal-500 h-full w-[100%]"></div>
+</div>
+<span class="text-xs font-bold text-teal-600">Terminé</span>
+<button class="text-slate-400 hover:text-error transition-colors">
+<span class="material-symbols-outlined" data-icon="delete">delete</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Progress Charts -->
+<div class="col-span-12 lg:col-span-4 space-y-6">
+<!-- Progress Card: Knee Flexion -->
+<div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+<div class="flex items-start justify-between mb-4">
+<div>
+<h4 class="text-label-caps font-label-caps text-slate-500 uppercase">Flexion du Genou</h4>
+<div class="flex items-baseline gap-2 mt-1">
+<span class="text-display-lg font-display-lg text-[#005F73]">110°</span>
+<span class="text-teal-600 text-sm font-bold flex items-center">
+<span class="material-symbols-outlined text-sm" data-icon="trending_up">trending_up</span> +15°
+                                    </span>
+</div>
+</div>
+<div class="w-10 h-10 rounded-full bg-teal-50 flex items-center justify-center text-teal-600">
+<span class="material-symbols-outlined" data-icon="architecture">architecture</span>
+</div>
+</div>
+<!-- Sparkline Mockup -->
+<div class="h-24 w-full flex items-end gap-1 px-1">
+<div class="flex-1 bg-teal-100 rounded-t h-[40%]"></div>
+<div class="flex-1 bg-teal-100 rounded-t h-[55%]"></div>
+<div class="flex-1 bg-teal-200 rounded-t h-[65%]"></div>
+<div class="flex-1 bg-teal-300 rounded-t h-[80%]"></div>
+<div class="flex-1 bg-primary-container rounded-t h-[95%]"></div>
+<div class="flex-1 bg-primary-container rounded-t h-[100%]"></div>
+</div>
+<div class="flex justify-between text-[10px] font-label-caps text-slate-400 mt-2">
+<span>S1</span><span>S2</span><span>S3</span><span>S4</span><span>S5</span><span>S6</span>
+</div>
+<p class="text-xs text-slate-500 mt-4 leading-relaxed italic">Objectif final : 135° (Amplitudes complètes)</p>
+</div>
+<!-- Progress Card: Pain Score -->
+<div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+<div class="flex items-start justify-between mb-4">
+<div>
+<h4 class="text-label-caps font-label-caps text-slate-500 uppercase">Score de Douleur (EVA)</h4>
+<div class="flex items-baseline gap-2 mt-1">
+<span class="text-display-lg font-display-lg text-[#005F73]">2/10</span>
+<span class="text-teal-600 text-sm font-bold flex items-center">
+<span class="material-symbols-outlined text-sm" data-icon="trending_down">trending_down</span> -3
+                                    </span>
+</div>
+</div>
+<div class="w-10 h-10 rounded-full bg-orange-50 flex items-center justify-center text-orange-500">
+<span class="material-symbols-outlined" data-icon="vital_signs">vital_signs</span>
+</div>
+</div>
+<!-- Line Chart Mockup -->
+<div class="h-24 w-full relative">
+<svg class="w-full h-full" preserveaspectratio="none" viewbox="0 0 100 100">
+<path d="M0,80 Q25,70 50,40 T100,20" fill="none" stroke="#005F73" stroke-linecap="round" stroke-width="3"></path>
+<circle cx="100" cy="20" fill="#005F73" r="4"></circle>
+</svg>
+</div>
+<div class="flex justify-between text-[10px] font-label-caps text-slate-400 mt-2">
+<span>1er Jour</span><span>Aujourd'hui</span>
+</div>
+<div class="mt-4 flex gap-1">
+<div class="flex-1 h-1 bg-green-500 rounded-full"></div>
+<div class="flex-1 h-1 bg-green-500 rounded-full"></div>
+<div class="flex-1 h-1 bg-slate-200 rounded-full"></div>
+<div class="flex-1 h-1 bg-slate-200 rounded-full"></div>
+<div class="flex-1 h-1 bg-slate-200 rounded-full"></div>
+</div>
+</div>
+<!-- Action Center -->
+<div class="bg-primary-container rounded-xl shadow-lg p-6 text-white overflow-hidden relative group">
+<div class="relative z-10">
+<h4 class="font-bold text-lg mb-2">Prochain Rendez-vous</h4>
+<p class="text-primary-fixed text-sm mb-4">Mardi 24 Octobre à 14:30</p>
+<button class="w-full bg-white text-primary font-bold py-3 rounded-lg hover:bg-slate-50 transition-colors shadow-md">
+                                Replanifier la séance
+                            </button>
+</div>
+<!-- Decorative background element -->
+<span class="material-symbols-outlined absolute -right-4 -bottom-4 text-8xl text-white/10 rotate-12" data-icon="event_available">event_available</span>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

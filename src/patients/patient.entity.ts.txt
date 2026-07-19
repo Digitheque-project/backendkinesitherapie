@@ -1,0 +1,31 @@
+import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+
+@Entity()
+export class Patient {
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @Column()
+  nom: string;
+
+  @Column()
+  prenom: string;
+
+  @Column({ nullable: true })
+  dateNaissance: Date;
+
+  @Column({ nullable: true })
+  sexe: string;
+
+  @Column({ nullable: true })
+  adresse: string;
+
+  @Column({ nullable: true })
+  telephone: string;
+
+  @Column({ nullable: true })
+  email: string;
+
+  @Column({ type: 'text', nullable: true })
+  antecedents: string;
+}

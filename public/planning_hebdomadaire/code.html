@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+
+<html class="light" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&amp;family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-tint": "#13677b",
+                        "inverse-surface": "#2d3133",
+                        "secondary-container": "#86f0f3",
+                        "on-secondary-fixed": "#002021",
+                        "surface-container": "#eceef0",
+                        "secondary-fixed-dim": "#6bd7da",
+                        "secondary": "#00696c",
+                        "surface-container-highest": "#e0e3e5",
+                        "on-primary-fixed": "#001f27",
+                        "outline-variant": "#bfc8cc",
+                        "surface-dim": "#d8dadc",
+                        "inverse-on-surface": "#eff1f3",
+                        "primary-fixed-dim": "#8bd1e8",
+                        "inverse-primary": "#8bd1e8",
+                        "tertiary-container": "#226150",
+                        "primary": "#004655",
+                        "tertiary-fixed-dim": "#95d3be",
+                        "secondary-fixed": "#89f3f6",
+                        "on-tertiary-container": "#9bd9c4",
+                        "tertiary-fixed": "#b0efda",
+                        "on-primary-container": "#91d7ee",
+                        "on-primary-fixed-variant": "#004e5f",
+                        "surface": "#f7f9fb",
+                        "surface-container-high": "#e6e8ea",
+                        "outline": "#6f797c",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#0b5040",
+                        "error": "#ba1a1a",
+                        "primary-container": "#005f73",
+                        "on-surface-variant": "#3f484c",
+                        "on-primary": "#ffffff",
+                        "on-secondary-fixed-variant": "#004f51",
+                        "primary-fixed": "#b2ebff",
+                        "on-tertiary": "#ffffff",
+                        "on-error": "#ffffff",
+                        "on-tertiary-fixed": "#002018",
+                        "on-error-container": "#93000a",
+                        "on-secondary-container": "#006e70",
+                        "tertiary": "#00493a",
+                        "error-container": "#ffdad6",
+                        "surface-bright": "#f7f9fb",
+                        "surface-container-low": "#f2f4f6",
+                        "on-surface": "#191c1e",
+                        "background": "#f7f9fb",
+                        "surface-variant": "#e0e3e5",
+                        "surface-container-lowest": "#ffffff",
+                        "on-background": "#191c1e"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "card-padding": "1.25rem",
+                        "container-margin": "2rem",
+                        "stack-sm": "0.5rem",
+                        "gutter": "1.5rem",
+                        "sidebar-width": "260px",
+                        "stack-md": "1rem"
+                    },
+                    "fontFamily": {
+                        "label-caps": ["Inter"],
+                        "status-badge": ["Inter"],
+                        "display-lg": ["Manrope"],
+                        "body-lg": ["Inter"],
+                        "title-sm": ["Manrope"],
+                        "headline-md": ["Manrope"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "status-badge": ["11px", {"lineHeight": "12px", "fontWeight": "700"}],
+                        "display-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "title-sm": ["18px", {"lineHeight": "24px", "fontWeight": "600"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #e0e3e5; border-radius: 10px; }
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: 80px repeat(7, 1fr);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen">
+<!-- Sidebar Navigation -->
+<aside class="fixed left-0 top-0 h-full w-64 border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm flex flex-col z-50">
+<div class="p-6">
+<h1 class="text-lg font-bold text-[#005F73] dark:text-teal-300 font-manrope">CHU Andrainjato</h1>
+<p class="text-xs text-slate-500 font-manrope">Clinical Management</p>
+</div>
+<nav class="flex-1 px-2 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-[#005F73] hover:bg-slate-50 transition-colors duration-200" href="../tableau_de_bord_avec_notes/code.html">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-manrope text-sm tracking-tight">Tableau de bord</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-[#005F73] hover:bg-slate-50 transition-colors duration-200" href="../gestion_des_patients/code.html">
+<span class="material-symbols-outlined">group</span>
+<span class="font-manrope text-sm tracking-tight">Patients</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-[#005F73] bg-teal-50/50 dark:bg-teal-900/20 border-l-4 border-[#005F73] font-semibold" href="#">
+<span class="material-symbols-outlined">calendar_today</span>
+<span class="font-manrope text-sm tracking-tight">Calendrier</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-[#005F73] hover:bg-slate-50 transition-colors duration-200" href="../archives_des_patients/code.html">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="font-manrope text-sm tracking-tight">Archives</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-[#005F73] hover:bg-slate-50 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-manrope text-sm tracking-tight">Paramètres</span>
+</a>
+</nav>
+<div class="p-4 mt-auto">
+<div class="bg-surface-container rounded-xl p-4 flex items-center gap-3">
+<img alt="Doctor Profile" class="w-8 h-8 rounded-full bg-primary-container" data-alt="professional portrait of a medical doctor in a clinical setting, clean soft lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDm_GL3q0dxz9uHS7UWISDsU-qj_2L2VatkV3XPqg8HT6SyxSXJb98aR4T2hLoJH2T-7GNayqmbPK3dJk1ROdn24CmQqrT6_WzcAIv4vX2KrbYA82e36ljIEPWJ_se56CK9iq92hvVG030S9I3WhJ_0a2OlXoVAo9eoLCiFzmuJ-baMcYHZcor2APivLbAWXw_P8S6D31N2DCt9Jpegwj0xTCPqkZXXcYDerGBDw3hTEb5UdHPeN3vP85n05JgdBGlRAMJhBp7DW8o"/>
+<div class="overflow-hidden">
+<p class="text-xs font-bold truncate">Dr. Marc Ratsimba</p>
+<p class="text-[10px] text-on-surface-variant">Chef de Clinique</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Wrapper -->
+<div class="ml-64 flex flex-col min-h-screen">
+<!-- Top Navigation -->
+<header class="sticky top-0 z-40 w-full border-b border-slate-200 bg-white/80 backdrop-blur-md flex justify-between items-center h-16 px-8">
+<div class="flex items-center gap-4 flex-1">
+<div class="relative w-full max-w-md focus-within:ring-2 focus-within:ring-teal-500/20 rounded-lg">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm">search</span>
+<input class="w-full bg-surface-container-low border-none rounded-lg pl-10 pr-4 py-2 text-sm focus:ring-0" placeholder="Rechercher un patient, un rdv..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<button class="text-slate-600 hover:text-[#005F73] transition-colors relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-0 right-0 w-2 h-2 bg-error rounded-full border-2 border-white"></span>
+</button>
+<button class="text-slate-600 hover:text-[#005F73] transition-colors">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+<div class="h-8 w-[1px] bg-slate-200"></div>
+<div class="flex items-center gap-2">
+<span class="text-label-caps font-label-caps text-on-surface-variant">LUN. 24 MAI</span>
+</div>
+</div>
+</header>
+<!-- Main Body -->
+<main class="flex flex-1 overflow-hidden">
+<!-- Calendar Section -->
+<section class="flex-1 flex flex-col p-8 overflow-y-auto">
+<div class="flex justify-between items-end mb-8">
+<div>
+<h2 class="font-display-lg text-display-lg text-primary">Planning Hebdomadaire</h2>
+<p class="text-body-md text-on-surface-variant mt-1">24 Mai - 30 Mai 2024</p>
+</div>
+<div class="flex gap-2">
+<button class="px-4 py-2 rounded-lg border border-outline-variant text-primary font-semibold text-sm hover:bg-surface-container-low transition-all">Aujourd'hui</button>
+<div class="flex border border-outline-variant rounded-lg overflow-hidden">
+<button class="p-2 hover:bg-surface-container-low border-r border-outline-variant"><span class="material-symbols-outlined text-sm">chevron_left</span></button>
+<button class="p-2 hover:bg-surface-container-low"><span class="material-symbols-outlined text-sm">chevron_right</span></button>
+</div>
+</div>
+</div>
+<!-- Calendar View -->
+<div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden flex flex-col flex-1">
+<!-- Day Headers -->
+<div class="calendar-grid border-b border-slate-100 bg-slate-50/50">
+<div class="p-4"></div>
+<div class="p-4 text-center border-l border-slate-100">
+<span class="block text-label-caps font-label-caps text-slate-400">LUN</span>
+<span class="text-title-sm font-title-sm text-primary">24</span>
+</div>
+<div class="p-4 text-center border-l border-slate-100 bg-primary-container/5">
+<span class="block text-label-caps font-label-caps text-primary">MAR</span>
+<span class="text-title-sm font-title-sm text-primary">25</span>
+</div>
+<div class="p-4 text-center border-l border-slate-100">
+<span class="block text-label-caps font-label-caps text-slate-400">MER</span>
+<span class="text-title-sm font-title-sm text-primary">26</span>
+</div>
+<div class="p-4 text-center border-l border-slate-100">
+<span class="block text-label-caps font-label-caps text-slate-400">JEU</span>
+<span class="text-title-sm font-title-sm text-primary">27</span>
+</div>
+<div class="p-4 text-center border-l border-slate-100">
+<span class="block text-label-caps font-label-caps text-slate-400">VEN</span>
+<span class="text-title-sm font-title-sm text-primary">28</span>
+</div>
+<div class="p-4 text-center border-l border-slate-100">
+<span class="block text-label-caps font-label-caps text-slate-400">SAM</span>
+<span class="text-title-sm font-title-sm text-primary">29</span>
+</div>
+<div class="p-4 text-center border-l border-slate-100">
+<span class="block text-label-caps font-label-caps text-slate-400">DIM</span>
+<span class="text-title-sm font-title-sm text-primary">30</span>
+</div>
+</div>
+<!-- Time Slots -->
+<div class="flex-1 relative overflow-y-auto min-h-[600px]">
+<!-- Hourly Rows -->
+<div class="absolute inset-0">
+<div class="calendar-grid h-20 border-b border-slate-50"><div class="p-2 text-[10px] font-semibold text-slate-400 text-right pr-4">08:00</div><div class="border-l border-slate-50"></div><div class="border-l border-slate-50"></div><div class="border-l border-slate-50"></div><div class="border-l border-slate-50"></div><div class="border-l border-slate-50"></div><div class="border-l border-slate-50"></div><div class="border-l border-slate-50"></div></div>
+<div class="calendar-grid h-20 border-b border-slate-50"><div class="p-2 text-[10px] font-semibold text-slate-400 text-right pr-4">09:00</div><div class="border-l border-slate-50"></div><div class="border-l border-slate-50"></div><div class="border-l border-slate-50"></div><div class="border-l border-slate-50"></div><div class="border-l border-slate-50"></div><div class="border-l border-slate-50"></div><div class="border-l border-slate-50"></div></div>
+<div class="calendar-grid h-20 border-b border-slate-50"><div class="p-2 text-[10px] font-semibold text-slate-400 text-right pr-4">10:00</div><div class="border-l border-slate-50"></div><div class="border-l border-slate-50"></div><div class="border-l border-slate-50"></div><div class="border-l border-slate-50"></div><div class="border-l border-slate-50"></div><div class="border-l border-slate-50"></div><div class="border-l border-slate-50"></div></div>
+<div class="calendar-grid h-20 border-b border-slate-50"><div class="p-2 text-[10px] font-semibold text-slate-400 text-right pr-4">11:00</div><div class="border-l border-slate-50"></div><div class="border-l border-slate-50"></div><div class="border-l border-slate-50"></div><div class="border-l border-slate-50"></div><div class="border-l border-slate-50"></div><div class="border-l border-slate-50"></div><div class="border-l border-slate-50"></div></div>
+<div class="calendar-grid h-20 border-b border-slate-50"><div class="p-2 text-[10px] font-semibold text-slate-400 text-right pr-4">12:00</div><div class="border-l border-slate-50"></div><div class="border-l border-slate-50"></div><div class="border-l border-slate-50"></div><div class="border-l border-slate-50"></div><div class="border-l border-slate-50"></div><div class="border-l border-slate-50"></div><div class="border-l border-slate-50"></div></div>
+<div class="calendar-grid h-20 border-b border-slate-50"><div class="p-2 text-[10px] font-semibold text-slate-400 text-right pr-4">13:00</div><div class="border-l border-slate-50"></div><div class="border-l border-slate-50"></div><div class="border-l border-slate-50"></div><div class="border-l border-slate-50"></div><div class="border-l border-slate-50"></div><div class="border-l border-slate-50"></div><div class="border-l border-slate-50"></div></div>
+<div class="calendar-grid h-20 border-b border-slate-50"><div class="p-2 text-[10px] font-semibold text-slate-400 text-right pr-4">14:00</div><div class="border-l border-slate-50"></div><div class="border-l border-slate-50"></div><div class="border-l border-slate-50"></div><div class="border-l border-slate-50"></div><div class="border-l border-slate-50"></div><div class="border-l border-slate-50"></div><div class="border-l border-slate-50"></div></div>
+</div>
+<!-- Appointments Overlay -->
+<div class="absolute inset-0 calendar-grid pointer-events-none">
+<div class="col-start-1"></div>
+<!-- Lundi 09:30 - Consultation initiale -->
+<div class="col-start-2 relative">
+<div class="absolute top-[120px] left-1 right-1 h-16 bg-teal-50 border-l-4 border-teal-500 p-2 pointer-events-auto cursor-pointer shadow-sm">
+<p class="text-[10px] font-bold text-teal-800 truncate">Consultation initiale</p>
+<p class="text-[9px] text-teal-600">Sarah Jenkins</p>
+</div>
+</div>
+<!-- Mardi 11:00 - Récupération post-op -->
+<div class="col-start-3 relative">
+<div class="absolute top-[240px] left-1 right-1 h-24 bg-primary-container text-white border-l-4 border-on-primary-container p-2 pointer-events-auto cursor-pointer shadow-md ring-2 ring-white z-10 scale-105">
+<div class="flex justify-between items-start">
+<p class="text-[10px] font-bold truncate">Récupération post-op</p>
+<span class="material-symbols-outlined text-xs">check_circle</span>
+</div>
+<p class="text-[9px] opacity-90">Sarah Jenkins</p>
+<div class="mt-2 flex gap-1">
+<div class="w-1 h-1 rounded-full bg-white"></div>
+<div class="w-1 h-1 rounded-full bg-white/50"></div>
+<div class="w-1 h-1 rounded-full bg-white/50"></div>
+</div>
+</div>
+</div>
+<!-- Jeudi 14:00 - Massage sportif -->
+<div class="col-start-5 relative">
+<div class="absolute top-[480px] left-1 right-1 h-20 bg-amber-50 border-l-4 border-amber-500 p-2 pointer-events-auto cursor-pointer shadow-sm">
+<p class="text-[10px] font-bold text-amber-800 truncate">Massage sportif</p>
+<p class="text-[9px] text-amber-600">Marc Dupond</p>
+</div>
+</div>
+<!-- Current Time Indicator -->
+<div class="absolute top-[280px] left-0 right-0 h-[2px] bg-error z-20 flex items-center pointer-events-none">
+<div class="w-3 h-3 rounded-full bg-error ml-20 -translate-x-1/2"></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Patient Drawer Panel -->
+<aside class="w-96 border-l border-slate-200 bg-white overflow-y-auto flex flex-col">
+<div class="p-6 border-b border-slate-100 flex justify-between items-center bg-surface-container-lowest">
+<h3 class="font-title-sm text-title-sm text-primary">Profil du Patient</h3>
+<button class="text-slate-400 hover:text-slate-600">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<!-- Patient Overview -->
+<div class="p-8 text-center">
+<div class="relative inline-block">
+<img alt="Sarah Jenkins" class="w-24 h-24 rounded-full mx-auto border-4 border-white shadow-lg bg-secondary-fixed" data-alt="close up portrait of a young woman with a warm expression, professional studio lighting, neutral background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDjkJ89w0UuCCXtAryuekh3-qd6Ng1PxZUEY0OO1Kbx3CK3GnBXD59v8ctcHnbFbiHN2f8CRNRhQIs3t0iYgNm_vjZu0pY8UOesgS7QaDbCxNMmSfawTvxNukp1t9S1DOIqrjcBMWNtiLc-69RlLsdTKmWxnzNDZK_rIu0Dd3nScd-t5gFNt8eNuOddnt0wyix0TGeEqMzWZf4raAY-1_iqaSjlyJFYSZNtmDq3SqVV3D45_kJFwtFgksRU4rEk7_PsABemQIHXBss"/>
+<span class="absolute bottom-1 right-1 w-5 h-5 bg-green-500 border-2 border-white rounded-full"></span>
+</div>
+<h4 class="mt-4 font-headline-md text-headline-md text-primary">Sarah Jenkins</h4>
+<div class="flex items-center justify-center gap-2 mt-2">
+<span class="bg-mint-100 text-teal-800 text-status-badge font-status-badge px-2 py-0.5 rounded-full bg-secondary-container">ACTIF</span>
+<span class="text-slate-400 text-xs">•</span>
+<span class="text-on-surface-variant text-xs">ID: #4492-SJ</span>
+</div>
+</div>
+<div class="px-6 space-y-6 pb-12">
+<!-- Medical Summary -->
+<div class="bg-surface-container-low rounded-xl p-5 border border-slate-100">
+<div class="flex items-center gap-2 mb-3">
+<span class="material-symbols-outlined text-primary text-lg" data-weight="fill">medical_information</span>
+<h5 class="text-label-caps font-label-caps text-primary uppercase">Résumé Médical</h5>
+</div>
+<div class="space-y-3">
+<div class="flex justify-between">
+<span class="text-xs text-on-surface-variant">Diagnostic</span>
+<span class="text-xs font-semibold text-primary">Ligament croisé (LCA)</span>
+</div>
+<div class="flex justify-between">
+<span class="text-xs text-on-surface-variant">Chirurgie</span>
+<span class="text-xs font-semibold text-primary">12 Avril 2024</span>
+</div>
+<div class="flex justify-between">
+<span class="text-xs text-on-surface-variant">Progression</span>
+<span class="text-xs font-semibold text-teal-600">65% Récupéré</span>
+</div>
+<div class="w-full bg-slate-200 h-1.5 rounded-full mt-2">
+<div class="bg-teal-500 h-1.5 rounded-full w-[65%]"></div>
+</div>
+</div>
+</div>
+<!-- Prescribed Exercises -->
+<div>
+<div class="flex justify-between items-center mb-4">
+<h5 class="text-label-caps font-label-caps text-primary uppercase">Exercices Prescrits</h5>
+<button class="text-[10px] text-teal-600 font-bold hover:underline">Voir tout</button>
+</div>
+<div class="space-y-3">
+<!-- Exercise Card -->
+<div class="flex items-center gap-4 p-3 bg-white border border-slate-100 rounded-lg hover:shadow-sm transition-shadow">
+<div class="w-12 h-12 rounded-lg bg-slate-100 flex-shrink-0 overflow-hidden">
+<img alt="Leg Extension" class="w-full h-full object-cover" data-alt="clean 3D medical illustration of a knee physical therapy exercise, soft studio lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBeOQGaxmWLX05FQnm7KDuTtew1FlA1RtKn0UkB2c2tnU5hVqcG-Lt2EaMAqQXjra--UNCODdvyumncJxMpWpgBWpKPpFGf4fmF3IB2nSxXsjF1oCfy-Q4rhAbJLEjttcn-jcqoF94NM7JNCK7zHmd0CJfx5Mzx91RVQTS9JJVP6dZsZbY93zedT9pLtIEQ07_sZebEWz-N0Xv_mRK6OP6I8Q-nGI_GyLB6vahcfPAoeRsBvk6sDjFSthFp0VOhEllUlFnLlm_J1Kg"/>
+</div>
+<div class="flex-1">
+<p class="text-xs font-bold text-primary">Extensions de jambe</p>
+<p class="text-[10px] text-on-surface-variant">3 séries x 15 reps</p>
+</div>
+<span class="material-symbols-outlined text-teal-500 text-sm">play_circle</span>
+</div>
+<!-- Exercise Card -->
+<div class="flex items-center gap-4 p-3 bg-white border border-slate-100 rounded-lg hover:shadow-sm transition-shadow">
+<div class="w-12 h-12 rounded-lg bg-slate-100 flex-shrink-0 overflow-hidden">
+<img alt="Squat Stability" class="w-full h-full object-cover" data-alt="clean 3D medical illustration of a stability squat physical therapy exercise, soft studio lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCOjK3HYDgPM6uWTzz_WqUFsgg9YeDGBC3Gf_M66VgchCu9QYlYQEvX2txZ63Nj0qx53gnMU7HILJTj8hP_6Na8Q6YeeifH87Wsk8TUh7oxDvotFn9B-TJsCo3dUG8jqVFUVtWOS6AIEdtNv5Bfbz0PBEakN9o1_1oPo7NN81RfNbZwwoc7wiVqA9v6ynd9p29kJzNw-bRCJD2O2_CypbcplU5OAOL1Ribcjl6WwkVAIdABY9TF1rQazeHaHUd3Tm-_Em9CbWJKeog"/>
+</div>
+<div class="flex-1">
+<p class="text-xs font-bold text-primary">Équilibre sur Bosu</p>
+<p class="text-[10px] text-on-surface-variant">5 min de maintien</p>
+</div>
+<span class="material-symbols-outlined text-teal-500 text-sm">play_circle</span>
+</div>
+</div>
+</div>
+<!-- Notes -->
+<div class="bg-tertiary-container/5 rounded-xl p-4 border border-tertiary/10">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-tertiary text-lg">event_note</span>
+<h5 class="text-[11px] font-bold text-tertiary uppercase tracking-wider">Notes du praticien</h5>
+</div>
+<p class="text-[11px] text-tertiary/80 italic leading-relaxed">
+                            "Alerte : légère douleur signalée lors de l'extension complète. Réduire l'amplitude de 5% pour la prochaine séance. Bonne mobilité globale."
+                        </p>
+</div>
+<button class="w-full py-3 bg-primary text-white font-bold rounded-lg text-sm flex items-center justify-center gap-2 hover:bg-primary-container transition-colors shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-sm">add_circle</span>
+                        Nouveau Compte Rendu
+                    </button>
+</div>
+</aside>
+</main>
+</div>
+<!-- Floating Action Button - Only for Main Dashboard Actions -->
+<button class="fixed bottom-8 right-[400px] w-14 h-14 bg-primary text-white rounded-full shadow-2xl flex items-center justify-center hover:scale-105 active:scale-95 transition-all z-30">
+<span class="material-symbols-outlined text-2xl">add</span>
+</button>
+</body></html>

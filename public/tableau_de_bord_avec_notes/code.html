@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+
+<html class="light" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-tint": "#13677b",
+                        "inverse-surface": "#2d3133",
+                        "secondary-container": "#86f0f3",
+                        "on-secondary-fixed": "#002021",
+                        "surface-container": "#eceef0",
+                        "secondary-fixed-dim": "#6bd7da",
+                        "secondary": "#00696c",
+                        "surface-container-highest": "#e0e3e5",
+                        "on-primary-fixed": "#001f27",
+                        "outline-variant": "#bfc8cc",
+                        "surface-dim": "#d8dadc",
+                        "inverse-on-surface": "#eff1f3",
+                        "primary-fixed-dim": "#8bd1e8",
+                        "inverse-primary": "#8bd1e8",
+                        "tertiary-container": "#226150",
+                        "primary": "#004655",
+                        "tertiary-fixed-dim": "#95d3be",
+                        "secondary-fixed": "#89f3f6",
+                        "on-tertiary-container": "#9bd9c4",
+                        "tertiary-fixed": "#b0efda",
+                        "on-primary-container": "#91d7ee",
+                        "on-primary-fixed-variant": "#004e5f",
+                        "surface": "#f7f9fb",
+                        "surface-container-high": "#e6e8ea",
+                        "outline": "#6f797c",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#0b5040",
+                        "error": "#ba1a1a",
+                        "primary-container": "#005f73",
+                        "on-surface-variant": "#3f484c",
+                        "on-primary": "#ffffff",
+                        "on-secondary-fixed-variant": "#004f51",
+                        "primary-fixed": "#b2ebff",
+                        "on-tertiary": "#ffffff",
+                        "on-error": "#ffffff",
+                        "on-tertiary-fixed": "#002018",
+                        "on-error-container": "#93000a",
+                        "on-secondary-container": "#006e70",
+                        "tertiary": "#00493a",
+                        "error-container": "#ffdad6",
+                        "surface-bright": "#f7f9fb",
+                        "surface-container-low": "#f2f4f6",
+                        "on-surface": "#191c1e",
+                        "background": "#f7f9fb",
+                        "surface-variant": "#e0e3e5",
+                        "surface-container-lowest": "#ffffff",
+                        "on-background": "#191c1e"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "card-padding": "1.25rem",
+                        "container-margin": "2rem",
+                        "stack-sm": "0.5rem",
+                        "gutter": "1.5rem",
+                        "sidebar-width": "260px",
+                        "stack-md": "1rem"
+                    },
+                    "fontFamily": {
+                        "label-caps": ["Inter"],
+                        "status-badge": ["Inter"],
+                        "display-lg": ["Manrope"],
+                        "body-lg": ["Inter"],
+                        "title-sm": ["Manrope"],
+                        "headline-md": ["Manrope"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "status-badge": ["11px", {"lineHeight": "12px", "fontWeight": "700"}],
+                        "display-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "title-sm": ["18px", {"lineHeight": "24px", "fontWeight": "600"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        body {
+            background-color: #f7f9fb;
+        }
+    </style>
+</head>
+<body class="font-body-md text-on-surface">
+<!-- Sidebar Navigation Shell -->
+<aside class="fixed left-0 top-0 h-full w-64 border-r border-slate-200 bg-white shadow-sm flex flex-col z-50">
+<div class="p-6 flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-primary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-white" data-icon="clinical_notes">clinical_notes</span>
+</div>
+<div>
+<h1 class="font-title-sm text-primary leading-tight">CHU Andrainjato</h1>
+<p class="text-label-caps text-on-surface-variant">Clinical Management</p>
+</div>
+</div>
+<nav class="mt-6 flex-1 px-4 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-primary bg-primary-container/10 border-l-4 border-primary font-semibold transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-manrope text-sm tracking-tight">Tableau de bord</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:text-primary hover:bg-slate-50 transition-colors duration-200" href="../gestion_des_patients/code.html">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span class="font-manrope text-sm tracking-tight">Patients</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:text-primary hover:bg-slate-50 transition-colors duration-200" href="../planning_hebdomadaire/code.html">
+<span class="material-symbols-outlined" data-icon="calendar_today">calendar_today</span>
+<span class="font-manrope text-sm tracking-tight">Calendrier</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:text-primary hover:bg-slate-50 transition-colors duration-200" href="../archives_des_patients/code.html">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="font-manrope text-sm tracking-tight">Archives</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:text-primary hover:bg-slate-50 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-manrope text-sm tracking-tight">Paramètres</span>
+</a>
+</nav>
+<div class="p-6 border-t border-slate-100">
+<div class="flex items-center gap-3 p-2 rounded-xl bg-slate-50">
+<img alt="Dr. Elena Vance" class="w-10 h-10 rounded-full object-cover" data-alt="Professional headshot of a female doctor in a clinic setting, soft natural lighting, high-end medical environment" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDi8Z9uNtiRuoXITO0JsvB5axz7F3IITVvHD7mcNXI1PbBkjfG30Kzx2LiqT-6exBpHbG3PYZb2435e-R8lGxodUl6UOClQ2BIexEovf4vQaNJrFsB-r-YPctWPy2_4XLlj_YCt6qXABV7k9wrZgGfPcOpjXQ5yK9koG5eK9bpBEErMhn3fBHN4jYi7--X2Y1HUJnE7QEIJznxIKtLsEB7TtjCUQzPsXDBPvkN4sGKRzIwikd7xARSQSB_kfooNhGHiLn9_orrARx8"/>
+<div class="overflow-hidden">
+<p class="font-title-sm text-sm truncate">Dr. Elena Vance</p>
+<p class="text-xs text-on-surface-variant">Chef de service</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Top Navigation Shell -->
+<header class="sticky top-0 z-40 w-full bg-white/80 backdrop-blur-md border-b border-slate-200 flex justify-between items-center h-16 px-8 pl-72">
+<div class="flex items-center flex-1 max-w-xl">
+<div class="relative w-full">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" data-icon="search">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container-low border-none rounded-lg text-body-md focus:ring-2 focus:ring-primary-container/20" placeholder="Rechercher un patient, un dossier..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="w-10 h-10 flex items-center justify-center text-slate-500 hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center text-slate-500 hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="help_outline">help_outline</span>
+</button>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-64 p-8">
+<div class="max-w-7xl mx-auto">
+<!-- Welcome Header -->
+<div class="mb-8 flex justify-between items-end">
+<div>
+<h2 class="font-headline-md text-on-surface">Bonjour, Dr. Vance</h2>
+<p class="font-body-lg text-on-surface-variant">Voici l'aperçu de votre activité pour aujourd'hui.</p>
+</div>
+<div class="flex gap-3">
+</div>
+</div>
+<!-- Bento Grid Metrics -->
+<!-- Main Interactive Content Area -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<!-- Appointments List -->
+<div class="lg:col-span-2 space-y-6">
+<div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+<div class="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
+<h4 class="font-title-sm text-on-surface">Rendez-vous du jour</h4>
+<a class="text-primary-container font-semibold text-sm hover:underline" href="../planning_hebdomadaire/code.html">Voir tout</a>
+</div>
+<div class="divide-y divide-slate-100">
+<!-- Appointment 1 -->
+<div class="px-6 py-5 flex items-center gap-4 hover:bg-slate-50 transition-colors">
+<div class="text-center min-w-[60px]">
+<p class="text-label-caps text-primary-container">09:00</p>
+<p class="text-xs text-on-surface-variant">AM</p>
+</div>
+<div class="w-12 h-12 rounded-full overflow-hidden flex-shrink-0">
+<img alt="Sarah Jenkins" class="w-full h-full object-cover" data-alt="Candid portrait of a middle-aged woman smiling warmly, clean high-key studio lighting, neutral background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDyMeGqPwbRXGJ-DRPtgL0Q5W3BjwxtDOEA8_DIFIoiG9o34EshHkYODTbtiil22iIqYWfgcutduXeUfMhKTgLY2cmAIcnsTsQ5LEECprv806famW4AVYApVBneD-Zmc1M10W9EMen0yLaDtiCNYFDMnDSgXuWZNMqvNZiHg4PD_pbkMqB0nbqlpPmd0wWH9WgKfKfKzrvk0ZlX_ifH3WVTRJFaWPx6v3W1v-H93oNIp3iuDY8tY_Y6ewuFuz-eg8WtIr2fPSM4rbk"/>
+</div>
+<div class="flex-1">
+<p class="font-semibold text-on-surface">Sarah Jenkins</p>
+<p class="text-body-md text-on-surface-variant">Suivi Post-opératoire • Genou</p>
+</div>
+<div>
+<span class="status-badge bg-emerald-50 text-emerald-700 px-3 py-1 rounded-full text-status-badge">CONFIRMÉ</span>
+</div>
+<button class="text-slate-400 hover:text-primary">
+<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+</button>
+</div>
+<!-- Appointment 2 -->
+<div class="px-6 py-5 flex items-center gap-4 hover:bg-slate-50 transition-colors">
+<div class="text-center min-w-[60px]">
+<p class="text-label-caps text-primary-container">10:30</p>
+<p class="text-xs text-on-surface-variant">AM</p>
+</div>
+<div class="w-12 h-12 rounded-full overflow-hidden flex-shrink-0">
+<img alt="Michael Chen" class="w-full h-full object-cover" data-alt="Professional portrait of an Asian young man, soft directional lighting, corporate medical profile aesthetic" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDGtaVYzXyEBfLWuvIQihI2lh2Wy1IW2ERqlcH3a0hmVYWU1DqxusJB1fRMx-ztbYu2WyQAMi7mvrV8sU3no-cl0mRBYFNmdsLfDGU3s0Yqji_fWKDoKX6LUSCrO52bFUxsD2y4PEBAqNucJpsWJ_LzX44bMVwVZqAvytfI52GdLUHfUuZNsjUK13IzWky2gd90I0TE-oHkG00ejh6WVaARiZ65r2ZQJhXZQKRg8A8gGazZHxtfghn3DzmbHL_D-hZF6kKZul4Z71o"/>
+</div>
+<div class="flex-1">
+<p class="font-semibold text-on-surface">Michael Chen</p>
+<p class="text-body-md text-on-surface-variant">Consultation Initial • Dos</p>
+</div>
+<div>
+<span class="status-badge bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-status-badge">EN ATTENTE</span>
+</div>
+<button class="text-slate-400 hover:text-primary">
+<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+</button>
+</div>
+<!-- Appointment 3 -->
+<div class="px-6 py-5 flex items-center gap-4 hover:bg-slate-50 transition-colors">
+<div class="text-center min-w-[60px]">
+<p class="text-label-caps text-primary-container">02:15</p>
+<p class="text-xs text-on-surface-variant">PM</p>
+</div>
+<div class="w-12 h-12 rounded-full overflow-hidden flex-shrink-0">
+<img alt="Elena Rodriguez" class="w-full h-full object-cover" data-alt="Close-up portrait of a Hispanic woman with gentle expression, natural lighting, high resolution clinical headshot" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAtJIBGxgnN_n1Jf0S10r_R6-7zyLx2H2ivoL-LbkgYz3v6fCkj3DOXwaXP4i2j64OtLmfdrvRFwYuhI1gVKqKwsgEHd88xHtBNBkBoELGmiDIeGExdPCpPult7W9_Lqq-kHKvonIfELNOjwMpRawnVDfbSjliU2IpOUADyE5Iy7xa3IVJwEi-V9ztAuQzn0wUxOu76GniSwdbSXc_rjIgE7IQkq6h7LGC7nlnTdyqkpyfCNgdYpPviG6lSO_7j3YLLBPwfqTtja4o"/>
+</div>
+<div class="flex-1">
+<p class="font-semibold text-on-surface">Elena Rodriguez</p>
+<p class="text-body-md text-on-surface-variant">Rééducation • Épaule</p>
+</div>
+<div>
+<span class="status-badge bg-primary-container/10 text-primary-container px-3 py-1 rounded-full text-status-badge">EN COURS</span>
+</div>
+<button class="text-slate-400 hover:text-primary">
+<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Additional Context Card: Activity Map -->
+</div>
+<!-- Side Panels -->
+<div class="space-y-6">
+<!-- Therapy Type Distribution -->
+<div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+<h4 class="font-title-sm text-on-surface mb-6">Répartition des Thérapies</h4>
+<div class="space-y-6">
+<!-- Physiotherapy -->
+<div>
+<div class="flex justify-between items-end mb-2">
+<p class="font-semibold text-sm">Physiothérapie</p>
+<p class="text-xs font-bold text-primary">45%</p>
+</div>
+<div class="h-2 w-full bg-slate-100 rounded-full">
+<div class="h-full bg-primary rounded-full" style="width: 45%"></div>
+</div>
+</div>
+<!-- Recovery -->
+<div>
+<div class="flex justify-between items-end mb-2">
+<p class="font-semibold text-sm">Récupération</p>
+<p class="text-xs font-bold text-secondary">30%</p>
+</div>
+<div class="h-2 w-full bg-slate-100 rounded-full">
+<div class="h-full bg-secondary rounded-full" style="width: 30%"></div>
+</div>
+</div>
+<!-- Massage -->
+<div>
+<div class="flex justify-between items-end mb-2">
+<p class="font-semibold text-sm">Massage Thérapeutique</p>
+<p class="text-xs font-bold text-tertiary-container">25%</p>
+</div>
+<div class="h-2 w-full bg-slate-100 rounded-full">
+<div class="h-full bg-tertiary-container rounded-full" style="width: 25%"></div>
+</div>
+</div>
+</div>
+<div class="mt-8 p-4 bg-slate-50 rounded-lg border border-dashed border-slate-300">
+<p class="text-xs text-on-surface-variant text-center">Basé sur 284 sessions enregistrées cette semaine.</p>
+</div>
+</div>
+<!-- Quick Notes / Memo -->
+<div class="bg-secondary-container/20 p-6 rounded-xl border border-secondary-container/50">
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-on-secondary-container" data-icon="lightbulb">lightbulb</span>
+<h4 class="font-title-sm text-on-secondary-container">Notes du Service</h4>
+</div>
+<ul class="space-y-3 text-sm text-on-secondary-container/80">
+<li class="flex gap-2">
+<span class="material-symbols-outlined text-[18px] mt-0.5" data-icon="check_circle">check_circle</span>
+                                Vérifier les stocks de gels de contact.
+                            </li>
+<li class="flex gap-2">
+<span class="material-symbols-outlined text-[18px] mt-0.5" data-icon="check_circle">check_circle</span>
+                                Réunion d'équipe à 16h30 en salle B.
+                            </li>
+</ul>
+<button class="mt-6 w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-primary text-white rounded-lg font-semibold text-sm hover:bg-primary/90 transition-colors shadow-sm">
+<span class="material-symbols-outlined text-[18px]">add</span>
+    Ajouter une note
+</button></div>
+</div>
+</div>
+</div>
+</main>
+<!-- Contextual FAB -->
+</body></html>

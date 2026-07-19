@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+
+<html class="light" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Patient Archives - CHU Andrainjato</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-tint": "#13677b",
+                        "inverse-surface": "#2d3133",
+                        "secondary-container": "#86f0f3",
+                        "on-secondary-fixed": "#002021",
+                        "surface-container": "#eceef0",
+                        "secondary-fixed-dim": "#6bd7da",
+                        "secondary": "#00696c",
+                        "surface-container-highest": "#e0e3e5",
+                        "on-primary-fixed": "#001f27",
+                        "outline-variant": "#bfc8cc",
+                        "surface-dim": "#d8dadc",
+                        "inverse-on-surface": "#eff1f3",
+                        "primary-fixed-dim": "#8bd1e8",
+                        "inverse-primary": "#8bd1e8",
+                        "tertiary-container": "#226150",
+                        "primary": "#004655",
+                        "tertiary-fixed-dim": "#95d3be",
+                        "secondary-fixed": "#89f3f6",
+                        "on-tertiary-container": "#9bd9c4",
+                        "tertiary-fixed": "#b0efda",
+                        "on-primary-container": "#91d7ee",
+                        "on-primary-fixed-variant": "#004e5f",
+                        "surface": "#f7f9fb",
+                        "surface-container-high": "#e6e8ea",
+                        "outline": "#6f797c",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#0b5040",
+                        "error": "#ba1a1a",
+                        "primary-container": "#005f73",
+                        "on-surface-variant": "#3f484c",
+                        "on-primary": "#ffffff",
+                        "on-secondary-fixed-variant": "#004f51",
+                        "primary-fixed": "#b2ebff",
+                        "on-tertiary": "#ffffff",
+                        "on-error": "#ffffff",
+                        "on-tertiary-fixed": "#002018",
+                        "on-error-container": "#93000a",
+                        "on-secondary-container": "#006e70",
+                        "tertiary": "#00493a",
+                        "error-container": "#ffdad6",
+                        "surface-bright": "#f7f9fb",
+                        "surface-container-low": "#f2f4f6",
+                        "on-surface": "#191c1e",
+                        "background": "#f7f9fb",
+                        "surface-variant": "#e0e3e5",
+                        "surface-container-lowest": "#ffffff",
+                        "on-background": "#191c1e"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "card-padding": "1.25rem",
+                        "container-margin": "2rem",
+                        "stack-sm": "0.5rem",
+                        "gutter": "1.5rem",
+                        "sidebar-width": "260px",
+                        "stack-md": "1rem"
+                    },
+                    "fontFamily": {
+                        "label-caps": ["Inter"],
+                        "status-badge": ["Inter"],
+                        "display-lg": ["Manrope"],
+                        "body-lg": ["Inter"],
+                        "title-sm": ["Manrope"],
+                        "headline-md": ["Manrope"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "status-badge": ["11px", {"lineHeight": "12px", "fontWeight": "700"}],
+                        "display-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "title-sm": ["18px", {"lineHeight": "24px", "fontWeight": "600"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #f7f9fb;
+        }
+    </style>
+</head>
+<body class="font-body-md text-on-surface selection:bg-primary-fixed selection:text-on-primary-fixed-variant">
+<!-- SideNavBar Shell -->
+<aside class="fixed left-0 top-0 h-full w-64 border-r border-slate-200 bg-white dark:bg-slate-900 shadow-sm flex flex-col z-50">
+<div class="p-6 flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-primary-container flex items-center justify-center text-white">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">local_hospital</span>
+</div>
+<div>
+<h2 class="text-lg font-bold text-[#005F73] font-manrope">CHU Andrainjato</h2>
+<p class="text-xs text-slate-500 font-inter">Clinical Management</p>
+</div>
+</div>
+<nav class="flex-1 mt-4 px-3 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:bg-slate-50 hover:text-[#005F73] transition-colors rounded-lg" href="../tableau_de_bord_avec_notes/code.html">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-manrope text-sm font-medium">Tableau de bord</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:bg-slate-50 hover:text-[#005F73] transition-colors rounded-lg" href="../gestion_des_patients/code.html">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span class="font-manrope text-sm font-medium">Patients</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:bg-slate-50 hover:text-[#005F73] transition-colors rounded-lg" href="../planning_hebdomadaire/code.html">
+<span class="material-symbols-outlined" data-icon="calendar_today">calendar_today</span>
+<span class="font-manrope text-sm font-medium">Calendrier</span>
+</a>
+<!-- Active Tab: Archives -->
+<a class="flex items-center gap-3 px-4 py-3 text-[#005F73] bg-teal-50/50 border-l-4 border-[#005F73] font-semibold transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2" style="font-variation-settings: 'FILL' 1;">inventory_2</span>
+<span class="font-manrope text-sm">Archives</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:bg-slate-50 hover:text-[#005F73] transition-colors rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-manrope text-sm font-medium">Paramètres</span>
+</a>
+</nav>
+<div class="p-4 border-t border-slate-100">
+<div class="flex items-center gap-3 p-2 rounded-xl bg-surface-container-low border border-slate-200">
+<img alt="Doctor Profile" class="w-8 h-8 rounded-full bg-primary/10 border border-primary/20" data-alt="Portrait of a professional doctor with a lab coat, clinical setting, soft bokeh background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCXXkfr3dnyMvOKKo9u6a0tmjSQvDow1f3cZHhXuK1XCMs69_EvW7ueK8-gcXSJs34mgMGyct03hSPb41Ii0s39JDHaB8t10Brh3cU-myL60VukrRAYVJVMuNOwpxn_6cqXFSAvDsOr_ziln9qfhknGCSQtPqxgz8rqFMN78ptescPtgWlPsk8fdDLzn4f6Ir_bt3QDkLKJuKhCyrFGR5zTWh6hsdSsiGrx9z9sqloYsKVifJVAS7v1pixSh2Xhlge7h6bkNm6YkFY"/>
+<div class="overflow-hidden">
+<p class="text-xs font-bold truncate">Dr. Rakotomalala</p>
+<p class="text-[10px] text-outline">Administrateur</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- TopNavBar Shell -->
+<header class="sticky top-0 z-40 w-full bg-white/80 backdrop-blur-md border-b border-slate-200 flex justify-between items-center h-16 px-8 ml-64 max-w-[calc(100%-16rem)]">
+<div class="flex-1 max-w-md">
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-primary transition-colors">search</span>
+<input class="w-full bg-slate-50 border-none rounded-full pl-10 pr-4 py-2 text-sm focus:ring-2 focus:ring-teal-500/20 font-inter" placeholder="Rechercher dans les archives..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="w-10 h-10 flex items-center justify-center rounded-full text-slate-600 hover:bg-slate-100 transition-colors">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-full text-slate-600 hover:bg-slate-100 transition-colors">
+<span class="material-symbols-outlined" data-icon="help_outline">help_outline</span>
+</button>
+<div class="h-6 w-[1px] bg-slate-200 mx-2"></div>
+<button class="bg-[#005F73] text-white px-4 py-2 rounded-lg font-manrope text-sm font-semibold flex items-center gap-2 hover:bg-[#004e5f] transition-all active:scale-95 shadow-md shadow-teal-900/10">
+<span class="material-symbols-outlined text-sm">cloud_upload</span>
+                Exporter Data
+            </button>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-64 p-8 min-h-screen">
+<div class="max-w-7xl mx-auto space-y-8">
+<!-- Page Header -->
+<div class="flex items-end justify-between">
+<div>
+<h1 class="font-display-lg text-display-lg text-primary tracking-tight">Archives des Patients</h1>
+<p class="font-body-md text-on-surface-variant mt-1">Gestion sécurisée des dossiers cliniques inactifs et historique médical.</p>
+</div>
+<div class="text-right">
+<p class="text-label-caps font-label-caps text-outline">Dernière Mise à Jour</p>
+<p class="text-body-md font-semibold text-on-surface">Aujourd'hui, 14:32</p>
+</div>
+</div>
+<!-- Metrics Bento Grid -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<!-- Total Archived -->
+<div class="bg-white p-card-padding rounded-xl border border-slate-200 shadow-[0px_4px_20px_rgba(0,0,0,0.04)] hover:shadow-md transition-shadow">
+<div class="flex justify-between items-start">
+<div class="w-12 h-12 rounded-lg bg-teal-50 flex items-center justify-center text-[#005F73]">
+<span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 0;">folder_open</span>
+</div>
+<span class="text-xs font-bold text-green-600 bg-green-50 px-2 py-1 rounded">+12%</span>
+</div>
+<div class="mt-6">
+<p class="font-label-caps text-label-caps text-outline mb-1 uppercase tracking-wider">Total Dossiers Archivés</p>
+<h2 class="font-display-lg text-display-lg text-primary">1,159</h2>
+</div>
+<div class="mt-4 pt-4 border-t border-slate-50 flex items-center gap-2">
+<div class="w-full bg-slate-100 h-1 rounded-full overflow-hidden">
+<div class="bg-[#005F73] h-full w-[72%]"></div>
+</div>
+<span class="text-[10px] text-outline whitespace-nowrap">72% Capacité</span>
+</div>
+</div>
+<!-- Storage Used -->
+<div class="bg-white p-card-padding rounded-xl border border-slate-200 shadow-[0px_4px_20px_rgba(0,0,0,0.04)] hover:shadow-md transition-shadow">
+<div class="flex justify-between items-start">
+<div class="w-12 h-12 rounded-lg bg-orange-50 flex items-center justify-center text-orange-600">
+<span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 0;">database</span>
+</div>
+<span class="text-xs font-bold text-slate-400 bg-slate-50 px-2 py-1 rounded">Stable</span>
+</div>
+<div class="mt-6">
+<p class="font-label-caps text-label-caps text-outline mb-1 uppercase tracking-wider">Espace de Stockage Utilisé</p>
+<h2 class="font-display-lg text-display-lg text-primary">42.8 GB</h2>
+</div>
+<div class="mt-4 flex gap-1">
+<div class="h-1 flex-1 bg-[#005F73] rounded-full"></div>
+<div class="h-1 flex-1 bg-[#005F73] rounded-full"></div>
+<div class="h-1 flex-1 bg-slate-200 rounded-full"></div>
+<div class="h-1 flex-1 bg-slate-200 rounded-full"></div>
+</div>
+</div>
+<!-- Sync Status -->
+<div class="bg-primary p-card-padding rounded-xl shadow-lg relative overflow-hidden group">
+<!-- Subtle background pattern -->
+<div class="absolute inset-0 opacity-10 pointer-events-none">
+<svg class="h-full w-full" preserveaspectratio="none" viewbox="0 0 100 100">
+<defs>
+<pattern height="10" id="grid" patternunits="userSpaceOnUse" width="10">
+<path d="M 10 0 L 0 0 0 10" fill="none" stroke="white" stroke-width="0.5"></path>
+</pattern>
+</defs>
+<rect fill="url(#grid)" height="100" width="100"></rect>
+</svg>
+</div>
+<div class="relative z-10">
+<div class="flex justify-between items-start">
+<div class="w-12 h-12 rounded-lg bg-white/20 backdrop-blur-sm flex items-center justify-center text-white">
+<span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1;">sync</span>
+</div>
+<div class="flex items-center gap-2 text-white">
+<div class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></div>
+<span class="text-xs font-bold">En Ligne</span>
+</div>
+</div>
+<div class="mt-6">
+<p class="font-label-caps text-label-caps text-white/70 mb-1 uppercase tracking-wider">État du Système</p>
+<h2 class="font-display-lg text-2xl text-white font-bold leading-tight">Synchronisation Automatique</h2>
+</div>
+<button class="mt-4 w-full py-2 bg-white/10 hover:bg-white/20 transition-colors text-white text-xs font-semibold rounded-lg border border-white/20">
+                            Vérifier les Logs
+                        </button>
+</div>
+</div>
+</div>
+<!-- Archive List Table -->
+<div class="bg-white rounded-xl border border-slate-200 shadow-[0px_4px_20px_rgba(0,0,0,0.04)] overflow-hidden">
+<div class="px-6 py-5 border-b border-slate-100 flex items-center justify-between">
+<div>
+<h3 class="font-title-sm text-primary">Liste des Dossiers Archivés</h3>
+<p class="text-xs text-outline font-inter">Consultez et restaurez les dossiers des patients archivés.</p>
+</div>
+<div class="flex gap-2">
+<button class="px-3 py-1.5 text-xs font-semibold border border-slate-200 rounded-lg text-on-surface hover:bg-slate-50 flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">filter_list</span> Filtrer
+                        </button>
+<button class="px-3 py-1.5 text-xs font-semibold border border-slate-200 rounded-lg text-on-surface hover:bg-slate-50 flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">sort</span> Trier
+                        </button>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-slate-50/50">
+<th class="px-6 py-4 text-label-caps font-label-caps text-outline uppercase">Patient</th>
+<th class="px-6 py-4 text-label-caps font-label-caps text-outline uppercase">Identifiant</th>
+<th class="px-6 py-4 text-label-caps font-label-caps text-outline uppercase">Date d'Archivage</th>
+<th class="px-6 py-4 text-label-caps font-label-caps text-outline uppercase">Raison de l'Archive</th>
+<th class="px-6 py-4 text-label-caps font-label-caps text-outline uppercase">Statut</th>
+<th class="px-6 py-4 text-label-caps font-label-caps text-outline uppercase">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100">
+<!-- Row 1 -->
+<tr class="hover:bg-slate-50/80 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-full bg-primary/5 flex items-center justify-center text-primary font-bold text-xs border border-primary/10">
+                                            JA
+                                        </div>
+<div>
+<p class="font-body-md font-bold text-on-surface">Jean-Luc Andriamanoro</p>
+<p class="text-xs text-outline">Hom. • 45 ans</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 font-inter text-sm text-slate-500">#PX-9021</td>
+<td class="px-6 py-4 font-inter text-sm text-on-surface">12 Oct 2023</td>
+<td class="px-6 py-4">
+<span class="text-sm text-on-surface-variant italic">Traitement Terminé</span>
+</td>
+<td class="px-6 py-4">
+<span class="px-2 py-1 rounded-full text-status-badge font-status-badge bg-emerald-50 text-emerald-700 border border-emerald-100">Scellé</span>
+</td>
+<td class="px-6 py-4">
+<button class="text-primary hover:text-[#005F73] p-1 rounded hover:bg-teal-50">
+<span class="material-symbols-outlined" data-icon="visibility">visibility</span>
+</button>
+<button class="text-slate-400 hover:text-primary p-1 rounded hover:bg-slate-100">
+<span class="material-symbols-outlined" data-icon="settings_backup_restore">settings_backup_restore</span>
+</button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-slate-50/80 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-full bg-primary/5 flex items-center justify-center text-primary font-bold text-xs border border-primary/10">
+                                            MV
+                                        </div>
+<div>
+<p class="font-body-md font-bold text-on-surface">Marie-Thérèse Voavy</p>
+<p class="text-xs text-outline">Fem. • 68 ans</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 font-inter text-sm text-slate-500">#PX-8854</td>
+<td class="px-6 py-4 font-inter text-sm text-on-surface">05 Sep 2023</td>
+<td class="px-6 py-4">
+<span class="text-sm text-on-surface-variant italic">Transfert Externe</span>
+</td>
+<td class="px-6 py-4">
+<span class="px-2 py-1 rounded-full text-status-badge font-status-badge bg-blue-50 text-blue-700 border border-blue-100">Transféré</span>
+</td>
+<td class="px-6 py-4">
+<button class="text-primary hover:text-[#005F73] p-1 rounded hover:bg-teal-50">
+<span class="material-symbols-outlined" data-icon="visibility">visibility</span>
+</button>
+<button class="text-slate-400 hover:text-primary p-1 rounded hover:bg-slate-100">
+<span class="material-symbols-outlined" data-icon="settings_backup_restore">settings_backup_restore</span>
+</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-slate-50/80 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-full bg-primary/5 flex items-center justify-center text-primary font-bold text-xs border border-primary/10">
+                                            HR
+                                        </div>
+<div>
+<p class="font-body-md font-bold text-on-surface">Hery Rajaonarimampianina</p>
+<p class="text-xs text-outline">Hom. • 52 ans</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 font-inter text-sm text-slate-500">#PX-7201</td>
+<td class="px-6 py-4 font-inter text-sm text-on-surface">28 Aoû 2023</td>
+<td class="px-6 py-4">
+<span class="text-sm text-on-surface-variant italic">Dossier Obsolète (&gt;10 ans)</span>
+</td>
+<td class="px-6 py-4">
+<span class="px-2 py-1 rounded-full text-status-badge font-status-badge bg-amber-50 text-amber-700 border border-amber-100">Archive Morte</span>
+</td>
+<td class="px-6 py-4">
+<button class="text-primary hover:text-[#005F73] p-1 rounded hover:bg-teal-50">
+<span class="material-symbols-outlined" data-icon="visibility">visibility</span>
+</button>
+<button class="text-slate-400 hover:text-primary p-1 rounded hover:bg-slate-100">
+<span class="material-symbols-outlined" data-icon="settings_backup_restore">settings_backup_restore</span>
+</button>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-slate-50/80 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-full bg-primary/5 flex items-center justify-center text-primary font-bold text-xs border border-primary/10">
+                                            SR
+                                        </div>
+<div>
+<p class="font-body-md font-bold text-on-surface">Sahondra Randria</p>
+<p class="text-xs text-outline">Fem. • 31 ans</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 font-inter text-sm text-slate-500">#PX-6540</td>
+<td class="px-6 py-4 font-inter text-sm text-on-surface">14 Jui 2023</td>
+<td class="px-6 py-4">
+<span class="text-sm text-on-surface-variant italic">Demande Patient</span>
+</td>
+<td class="px-6 py-4">
+<span class="px-2 py-1 rounded-full text-status-badge font-status-badge bg-emerald-50 text-emerald-700 border border-emerald-100">Scellé</span>
+</td>
+<td class="px-6 py-4">
+<button class="text-primary hover:text-[#005F73] p-1 rounded hover:bg-teal-50">
+<span class="material-symbols-outlined" data-icon="visibility">visibility</span>
+</button>
+<button class="text-slate-400 hover:text-primary p-1 rounded hover:bg-slate-100">
+<span class="material-symbols-outlined" data-icon="settings_backup_restore">settings_backup_restore</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="px-6 py-4 border-t border-slate-100 bg-slate-50/30 flex items-center justify-between">
+<p class="text-xs text-outline font-inter">Affichage de 1-10 sur 1,159 dossiers</p>
+<div class="flex items-center gap-1">
+<button class="w-8 h-8 flex items-center justify-center rounded border border-slate-200 bg-white text-slate-400">
+<span class="material-symbols-outlined text-sm">chevron_left</span>
+</button>
+<button class="w-8 h-8 flex items-center justify-center rounded border border-[#005F73] bg-teal-50 text-[#005F73] font-bold text-xs">1</button>
+<button class="w-8 h-8 flex items-center justify-center rounded border border-slate-200 bg-white text-slate-600 font-medium text-xs hover:bg-slate-50">2</button>
+<button class="w-8 h-8 flex items-center justify-center rounded border border-slate-200 bg-white text-slate-600 font-medium text-xs hover:bg-slate-50">3</button>
+<button class="w-8 h-8 flex items-center justify-center rounded border border-slate-200 bg-white text-slate-400">
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Footer Compliance Info -->
+<div class="flex items-center gap-4 p-4 rounded-xl bg-surface-container-low border border-slate-200 text-xs text-outline">
+<span class="material-symbols-outlined text-teal-600">verified_user</span>
+<p>Tous les dossiers archivés sont conformes à la loi malgache sur la protection des données personnelles de santé. Conservation standard : 20 ans après le dernier passage.</p>
+<a class="ml-auto text-primary font-bold hover:underline" href="#">Consulter la Politique de Confidentialité</a>
+</div>
+</div>
+</main>
+</body></html>
