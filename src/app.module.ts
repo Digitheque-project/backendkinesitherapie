@@ -6,6 +6,7 @@ import { PatientsModule } from './patients/patients.module';
 import { RendezVousModule } from './rendezvous/rendezvous.module';
 import { ArchivesModule } from './archives/archives.module';
 import { NotificationsModule } from './notifications/notifications.module';
+import { SeancesModule } from './seances/seances.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { NotificationsModule } from './notifications/notifications.module';
     RendezVousModule,
     ArchivesModule,
     NotificationsModule,
+    SeancesModule,
   ],
   controllers: [AppController],
 })

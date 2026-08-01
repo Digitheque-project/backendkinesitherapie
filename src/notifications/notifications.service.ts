@@ -62,10 +62,9 @@ export class NotificationsService implements OnModuleInit, OnModuleDestroy {
     if (!Array.isArray(prescriptions)) return;
 
     for (const p of prescriptions) {
-      const demandeCreee = (p.demandes || []).find(
-        (d: any) => d.statut === 'CREEE',
-      );
-      if (!demandeCreee) continue;
+      // Pour les prescriptions KINE, le statut est directement sur l'objet
+      // (pas de sous-tableau "demandes" imbrique).
+      if (p.statut !== 'CREEE') continue;
 
       const exists = await this.repo.findOne({
         where: { prescriptionId: p.id },
@@ -74,9 +73,9 @@ export class NotificationsService implements OnModuleInit, OnModuleDestroy {
 
       const notif = this.repo.create({
         prescriptionId: p.id,
-        demandeId: demandeCreee.id,
+        demandeId: p.id,
         patientId: p.patientId,
-        typeKine: demandeCreee.autreKine || demandeCreee.typeKine,
+        typeKine: p.autreKine || p.typeKine || p.renseignements,
         urgence: p.urgence,
         diagnostic: p.diagnostic,
         renseignements: p.renseignements,
@@ -117,19 +116,59 @@ export class NotificationsService implements OnModuleInit, OnModuleDestroy {
     }
   }
 
-  findAll(): Promise<Notification[]> {
-    return this.repo.find({ order: { createdAt: 'DESC' } });
+  // Recupere tous les patients Accueil en un seul appel (evite N appels).
+  private async recupererTousPatientsAccueil(): Promise<Map<string, any>> {
+    const map = new Map<string, any>();
+    const url = this.config.get<string>('ACCUEIL_API_URL');
+    const chu = this.config.get<string>('CHU_ID');
+    if (!url || !chu) return map;
+    try {
+      const res = await fetch(`${url}/patients?chuId=${chu}`);
+      if (!res.ok) return map;
+      const patients = await res.json();
+      if (!Array.isArray(patients)) return map;
+      for (const p of patients) {
+        map.set(p.id, p);
+      }
+    } catch {
+      // service Accueil injoignable : on retourne une map vide (enrichissement non bloquant)
+    }
+    return map;
   }
 
-  findNonLues(): Promise<Notification[]> {
-    return this.repo.find({
+  private enrichir(notifs: Notification[], patients: Map<string, any>): any[] {
+    return notifs.map((n) => {
+      const p = patients.get(n.patientId);
+      return {
+        ...n,
+        patientNom: p?.nom || null,
+        patientPrenom: p?.prenom || null,
+      };
+    });
+  }
+
+  async findAll(): Promise<any[]> {
+    const notifs = await this.repo.find({ order: { createdAt: 'DESC' } });
+    const patients = await this.recupererTousPatientsAccueil();
+    return this.enrichir(notifs, patients);
+  }
+
+  async findNonLues(): Promise<any[]> {
+    const notifs = await this.repo.find({
       where: { lue: false },
       order: { createdAt: 'DESC' },
     });
+    const patients = await this.recupererTousPatientsAccueil();
+    return this.enrichir(notifs, patients);
   }
 
   async marquerLue(id: number): Promise<Notification | null> {
     await this.repo.update(id, { lue: true });
+    return this.repo.findOne({ where: { id } });
+  }
+
+  async marquerPlanifieeParId(id: number): Promise<Notification | null> {
+    await this.repo.update(id, { lue: true, statut: 'PLANIFIEE' });
     return this.repo.findOne({ where: { id } });
   }
 

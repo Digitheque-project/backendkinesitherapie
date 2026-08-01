@@ -43,4 +43,14 @@ export class Patient {
 
   @Column({ nullable: true })
   dateDerniereVisite: string;
+  @Column({ nullable: true })
+  urgence: string;
+  @Column({ type: 'text', nullable: true })
+  alertes: string;
+  @Column({ type: 'text', nullable: true })
+  objectifs: string;
+  @Column({ type: 'text', nullable: true })
+  remarques: string;
+  @Column({ nullable: true })
+  nomMedecinPrescripteur: string;
 }

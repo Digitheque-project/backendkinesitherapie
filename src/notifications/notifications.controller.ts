@@ -7,12 +7,12 @@ export class NotificationsController {
   constructor(private readonly service: NotificationsService) {}
 
   @Get()
-  findAll(): Promise<Notification[]> {
+  findAll(): Promise<any[]> {
     return this.service.findAll();
   }
 
   @Get('non-lues')
-  findNonLues(): Promise<Notification[]> {
+  findNonLues(): Promise<any[]> {
     return this.service.findNonLues();
   }
 
@@ -25,6 +25,11 @@ export class NotificationsController {
   @Patch(':id/lire')
   marquerLue(@Param('id') id: string): Promise<Notification | null> {
     return this.service.marquerLue(+id);
+  }
+
+  @Patch(':id/planifiee')
+  marquerPlanifiee(@Param('id') id: string) {
+    return this.service.marquerPlanifieeParId(+id);
   }
 
   // Planifie un rendez-vous a partir d'une notification (body: { dateRdv: string ISO })
