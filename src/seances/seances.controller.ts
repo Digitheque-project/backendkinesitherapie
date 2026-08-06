@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Param, Body, Query } from '@nestjs/common';
+import { Controller, Get, Post, Put, Param, Body, Query } from '@nestjs/common';
 import { SeancesService } from './seances.service';
 import { Seance } from './seance.entity';
 
@@ -15,5 +15,10 @@ export class SeancesController {
   @Post()
   create(@Body() data: Partial<Seance>): Promise<Seance> {
     return this.service.create(data);
+  }
+
+  @Put(':id')
+  update(@Param('id') id: string, @Body() data: Partial<Seance>): Promise<Seance> {
+    return this.service.update(+id, data);
   }
 }

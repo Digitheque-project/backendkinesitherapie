@@ -25,4 +25,9 @@ export class SeancesService {
     const seance = this.repo.create(data);
     return this.repo.save(seance);
   }
+
+  async update(id: number, data: Partial<Seance>): Promise<Seance> {
+    await this.repo.update(id, data);
+    return this.repo.findOne({ where: { id } }) as Promise<Seance>;
+  }
 }
