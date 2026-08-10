@@ -4,7 +4,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.setGlobalPrefix('api');
+  app.setGlobalPrefix('kine/api');
   app.enableCors({
     origin: '*',
     methods: 'GET,POST,PUT,PATCH,DELETE',
@@ -17,7 +17,7 @@ async function bootstrap() {
     .setVersion('1.0')
     .build();
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api/docs', app, document);
+  SwaggerModule.setup('kine/api/docs', app, document);
 
   await app.listen(process.env.PORT || 3001);
 }
