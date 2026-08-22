@@ -5,6 +5,7 @@ import { ConfigService } from '@nestjs/config';
 import { Notification } from './notification.entity';
 import { PatientsService } from '../patients/patients.service';
 import { RendezVousService } from '../rendezvous/rendezvous.service';
+import { PrescriptionAuthService } from './prescription-auth.service';
 
 @Injectable()
 export class NotificationsService implements OnModuleInit, OnModuleDestroy {
@@ -17,6 +18,7 @@ export class NotificationsService implements OnModuleInit, OnModuleDestroy {
     private readonly config: ConfigService,
     private readonly patientsService: PatientsService,
     private readonly rendezVousService: RendezVousService,
+    private readonly prescriptionAuth: PrescriptionAuthService,
   ) {}
 
   onModuleInit() {
@@ -37,7 +39,7 @@ export class NotificationsService implements OnModuleInit, OnModuleDestroy {
     const chu = this.config.get<string>('CHU_ID');
     if (!base || !sid) return;
 
-    const token = this.config.get<string>('PRESCRIPTION_API_TOKEN');
+    const token = await this.prescriptionAuth.getValidToken();
     const headers: Record<string, string> = token
       ? { Authorization: `Bearer ${token}` }
       : {};
