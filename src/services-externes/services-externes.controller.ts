@@ -1,8 +1,11 @@
 import { Controller, Get, Param, NotFoundException, UseGuards } from '@nestjs/common';
+import { ApiBearerAuth, ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
 import { ServiceAuthGuard } from '../common/guards/service-auth.guard';
 import { PatientsService } from '../patients/patients.service';
 import { SeancesService } from '../seances/seances.service';
 
+@ApiTags('Services externes - Kinésithérapie')
+@ApiBearerAuth()
 @UseGuards(ServiceAuthGuard)
 @Controller('services/patients')
 export class ServicesExternesController {
@@ -11,6 +14,15 @@ export class ServicesExternesController {
     private readonly seancesService: SeancesService,
   ) {}
 
+  @ApiOperation({
+    summary: 'Récupérer le compte-rendu de kinésithérapie validé d\'un patient',
+    description: 'Réservé aux services du CHU authentifiés. Ne retourne que les séances validées par le kinésithérapeute.',
+  })
+  @ApiParam({
+    name: 'numeroDossier',
+    description: 'Identifiant patient du service Accueil',
+    example: 'CHU-2026-00001',
+  })
   @Get(':numeroDossier/compte-rendu')
   async compteRendu(@Param('numeroDossier') numeroDossier: string) {
     const patient = await this.patientsService.findByNumeroDossier(numeroDossier);
