@@ -23,6 +23,9 @@ export class PatientsService {
     if (!patient) throw new NotFoundException('Patient introuvable');
     return patient;
   }
+  async findByNumeroDossier(numeroDossier: string): Promise<Patient | null> {
+    return this.repo.findOne({ where: { numeroDossier } });
+  }
 
   create(data: Partial<Patient>): Promise<Patient> {
     if (!data || !data.nom || !data.prenom) {

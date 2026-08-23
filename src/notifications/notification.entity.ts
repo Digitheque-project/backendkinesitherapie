@@ -31,6 +31,8 @@ export class Notification {
 
   @Column({ nullable: true })
   diagnostic: string;
+  @Column({ type: 'text', nullable: true })
+  objectifs: string;
 
   @Column({ type: 'text', nullable: true })
   renseignements: string;

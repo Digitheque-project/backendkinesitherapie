@@ -6,6 +6,7 @@ import { PatientsModule } from './patients/patients.module';
 import { RendezVousModule } from './rendezvous/rendezvous.module';
 import { ArchivesModule } from './archives/archives.module';
 import { NotificationsModule } from './notifications/notifications.module';
+import { ServicesExternesModule } from './services-externes/services-externes.module';
 import { SeancesModule } from './seances/seances.module';
 
 @Module({
@@ -31,6 +32,7 @@ import { SeancesModule } from './seances/seances.module';
     RendezVousModule,
     ArchivesModule,
     NotificationsModule,
+    ServicesExternesModule,
     SeancesModule,
   ],
   controllers: [AppController],

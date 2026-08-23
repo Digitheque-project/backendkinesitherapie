@@ -20,6 +20,12 @@ export class SeancesService {
       order: { createdAt: 'DESC' },
     });
   }
+  findByPatientValidees(patientId: number): Promise<Seance[]> {
+    return this.repo.find({
+      where: { patientId, valide: true },
+      order: { createdAt: 'DESC' },
+    });
+  }
 
   create(data: Partial<Seance>): Promise<Seance> {
     const seance = this.repo.create(data);

@@ -30,6 +30,12 @@ export class Seance {
   heureFin: string;
 
   @Column({ type: 'text', nullable: true })
+  diagnosticKine: string;
+
+  @Column({ type: 'text', nullable: true })
+  bilan: string;
+
+  @Column({ type: 'text', nullable: true })
   traitement: string;
 
   @Column({ type: 'text', nullable: true })
@@ -40,6 +46,9 @@ export class Seance {
 
   @Column({ nullable: true })
   kine: string;
+
+  @Column({ default: false })
+  valide: boolean;
 
   @CreateDateColumn()
   createdAt: Date;

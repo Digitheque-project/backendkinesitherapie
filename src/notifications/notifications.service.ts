@@ -80,6 +80,7 @@ export class NotificationsService implements OnModuleInit, OnModuleDestroy {
         typeKine: p.autreKine || p.typeKine || p.renseignements,
         urgence: p.urgence,
         diagnostic: p.diagnostic,
+        objectifs: p.objectifs,
         renseignements: p.renseignements,
         statut: 'CREEE',
         lue: false,
