@@ -1,7 +1,9 @@
-import { Controller, Get, Param, NotFoundException } from '@nestjs/common';
+import { Controller, Get, Param, NotFoundException, UseGuards } from '@nestjs/common';
+import { ServiceAuthGuard } from '../common/guards/service-auth.guard';
 import { PatientsService } from '../patients/patients.service';
 import { SeancesService } from '../seances/seances.service';
 
+@UseGuards(ServiceAuthGuard)
 @Controller('services/patients')
 export class ServicesExternesController {
   constructor(
