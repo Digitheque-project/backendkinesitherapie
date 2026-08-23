@@ -15,6 +15,7 @@ async function bootstrap() {
     .setTitle('CHU Andrainjato - Kinésithérapie API')
     .setDescription('API de gestion clinique du service de kinésithérapie')
     .setVersion('1.0')
+    .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('kine/api/docs', app, document);
