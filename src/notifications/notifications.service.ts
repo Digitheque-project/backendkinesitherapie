@@ -33,16 +33,19 @@ export class NotificationsService implements OnModuleInit, OnModuleDestroy {
     if (this.timer) clearInterval(this.timer);
   }
 
-  async synchroniser(): Promise<void> {
-    const base = this.config.get<string>('PRESCRIPTION_API_URL');
-    const sid = this.config.get<string>('KINE_SERVICE_ID');
-    const chu = this.config.get<string>('CHU_ID');
-    if (!base || !sid) return;
+  // Service Prescription, via la passerelle (routes /prescriptions/...).
+  private get prescriptionBase(): string {
+    const g = this.prescriptionAuth.gatewayUrl;
+    return g ? `${g}/prescriptions` : '';
+  }
 
-    const token = await this.prescriptionAuth.getValidToken();
-    const headers: Record<string, string> = token
-      ? { Authorization: `Bearer ${token}` }
-      : {};
+  async synchroniser(): Promise<void> {
+    const base = this.prescriptionBase;
+    const identity = await this.prescriptionAuth.getIdentity();
+    if (!base || !identity) return;
+    const { serviceId: sid, chuId: chu } = identity;
+
+    const headers = await this.prescriptionAuth.authHeaders();
 
     let prescriptions: any[];
     try {
@@ -52,7 +55,7 @@ export class NotificationsService implements OnModuleInit, OnModuleDestroy {
       if (!res.ok) {
         if (res.status === 401) {
           this.logger.warn(
-            'Service Prescription : 401 (token JWT manquant ou invalide) — renseigner PRESCRIPTION_API_TOKEN',
+            'Service Prescription : 401 (jeton de service refuse) — verifier JWT_SECRET',
           );
         }
         return;
@@ -94,13 +97,14 @@ export class NotificationsService implements OnModuleInit, OnModuleDestroy {
   }
 
   private async pousserVersServiceExterne(n: Notification): Promise<void> {
-    const url = this.config.get<string>('NOTIFICATION_API_URL');
-    const sid = this.config.get<string>('KINE_SERVICE_ID');
+    const url = this.prescriptionAuth.gatewayUrl;
+    const sid = (await this.prescriptionAuth.getIdentity())?.serviceId;
     if (!url || !sid) return;
     try {
+      // La passerelle exige un jeton sur /notifications (requiresAuth).
       await fetch(`${url}/notifications/service`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', ...(await this.prescriptionAuth.authHeaders()) },
         body: JSON.stringify({
           serviceId: sid,
           title: 'Nouvelle demande kiné',
@@ -119,14 +123,22 @@ export class NotificationsService implements OnModuleInit, OnModuleDestroy {
     }
   }
 
+  // Service Accueil, via la passerelle (routes /accueil/...).
+  private get accueilBase(): string {
+    const g = this.prescriptionAuth.gatewayUrl;
+    return g ? `${g}/accueil` : '';
+  }
+
   // Recupere tous les patients Accueil en un seul appel (evite N appels).
   private async recupererTousPatientsAccueil(): Promise<Map<string, any>> {
     const map = new Map<string, any>();
-    const url = this.config.get<string>('ACCUEIL_API_URL');
-    const chu = this.config.get<string>('CHU_ID');
+    const url = this.accueilBase;
+    const chu = (await this.prescriptionAuth.getIdentity())?.chuId;
     if (!url || !chu) return map;
     try {
-      const res = await fetch(`${url}/patients?chuId=${chu}`);
+      const res = await fetch(`${url}/patients?chuId=${chu}`, {
+        headers: await this.prescriptionAuth.authHeaders(),
+      });
       if (!res.ok) return map;
       const patients = await res.json();
       if (!Array.isArray(patients)) return map;
@@ -181,11 +193,13 @@ export class NotificationsService implements OnModuleInit, OnModuleDestroy {
 
   // Recupere les infos personnelles du patient depuis le service Accueil.
   private async recupererPatientAccueil(patientId: string): Promise<any | null> {
-    const url = this.config.get<string>('ACCUEIL_API_URL');
-    const chu = this.config.get<string>('CHU_ID');
+    const url = this.accueilBase;
+    const chu = (await this.prescriptionAuth.getIdentity())?.chuId;
     if (!url || !chu) return null;
     try {
-      const res = await fetch(`${url}/patients?chuId=${chu}`);
+      const res = await fetch(`${url}/patients?chuId=${chu}`, {
+        headers: await this.prescriptionAuth.authHeaders(),
+      });
       if (!res.ok) return null;
       const patients = await res.json();
       if (!Array.isArray(patients)) return null;
@@ -196,22 +210,39 @@ export class NotificationsService implements OnModuleInit, OnModuleDestroy {
   }
 
   // Informe le service Prescription que la demande a ete traitee (non bloquant).
-  private async notifierPrescription(prescriptionId: string, demandeId: string): Promise<void> {
-    const base = this.config.get<string>('PRESCRIPTION_API_URL');
-    const token = this.config.get<string>('PRESCRIPTION_API_TOKEN');
+  private async notifierPrescription(
+    prescriptionId: string,
+    demandeId: string,
+    rdv?: { date: string; heure: string },
+  ): Promise<void> {
+    const base = this.prescriptionBase;
     if (!base) return;
-    const headers: Record<string, string> = { 'Content-Type': 'application/json' };
-    if (token) headers.Authorization = `Bearer ${token}`;
+    const headers: Record<string, string> = {
+      'Content-Type': 'application/json',
+      ...(await this.prescriptionAuth.authHeaders()),
+    };
     try {
+      // Routes PATCH du service Prescription (PUT renvoyait 404).
       const res = await fetch(`${base}/kine/${demandeId}/statut`, {
-        method: 'PUT',
+        method: 'PATCH',
         headers,
         body: JSON.stringify({ statut: 'PLANIFIEE' }),
       });
       if (!res.ok) {
         this.logger.warn(
-          `Impossible de notifier Prescription (statut ${res.status}) pour la demande ${demandeId} — route peut-etre absente cote Prescription`,
+          `Impossible de notifier Prescription (statut ${res.status}) pour la demande ${demandeId}`,
         );
+      }
+      // Le prescripteur voit ainsi la date du rendez-vous fixe par la kine.
+      if (rdv) {
+        const resRdv = await fetch(`${base}/kine/${demandeId}/rdv`, {
+          method: 'PATCH',
+          headers,
+          body: JSON.stringify({ rdvDate: rdv.date, rdvTime: rdv.heure }),
+        });
+        if (!resRdv.ok) {
+          this.logger.warn(`Impossible de transmettre le RDV (statut ${resRdv.status}) pour la demande ${demandeId}`);
+        }
       }
     } catch {
       this.logger.warn('Service Prescription injoignable pour la notification de statut');
@@ -260,7 +291,10 @@ export class NotificationsService implements OnModuleInit, OnModuleDestroy {
     });
 
     await this.marquerPlanifiee(notif.prescriptionId);
-    this.notifierPrescription(notif.prescriptionId, notif.demandeId).catch(() => {});
+    this.notifierPrescription(notif.prescriptionId, notif.demandeId, {
+      date: dateRdv.toISOString().slice(0, 10),
+      heure: heureDebut,
+    }).catch(() => {});
 
     return { patientId: patient.id, rendezVousId: rdv.id };
   }
