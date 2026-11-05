@@ -22,7 +22,9 @@ export class NotificationsService implements OnModuleInit, OnModuleDestroy {
   ) {}
 
   onModuleInit() {
-    const interval = Number(this.config.get('POLL_INTERVAL_MS')) || 30000;
+    // 60 s par défaut (était 30 s) : les interrogations passent par la passerelle,
+    // bloquée par le pare-feu de l'hébergeur au-delà d'un certain débit (429).
+    const interval = Number(this.config.get('POLL_INTERVAL_MS')) || 60000;
     this.synchroniser().catch(() => {});
     this.timer = setInterval(() => {
       this.synchroniser().catch(() => {});
