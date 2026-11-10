@@ -224,6 +224,18 @@ export class NotificationsService implements OnModuleInit, OnModuleDestroy {
       ...(await this.prescriptionAuth.authHeaders()),
     };
     try {
+      // La date du rendez-vous d'abord : le prescripteur reçoit un seul message,
+      // avec la date (le statut « planifiée » qui suit n'en renvoie pas d'autre).
+      if (rdv) {
+        const resRdv = await fetch(`${base}/kine/${demandeId}/rdv`, {
+          method: 'PATCH',
+          headers,
+          body: JSON.stringify({ rdvDate: rdv.date, rdvTime: rdv.heure }),
+        });
+        if (!resRdv.ok) {
+          this.logger.warn(`Impossible de transmettre le RDV (statut ${resRdv.status}) pour la demande ${demandeId}`);
+        }
+      }
       // Routes PATCH du service Prescription (PUT renvoyait 404).
       const res = await fetch(`${base}/kine/${demandeId}/statut`, {
         method: 'PATCH',
@@ -234,17 +246,6 @@ export class NotificationsService implements OnModuleInit, OnModuleDestroy {
         this.logger.warn(
           `Impossible de notifier Prescription (statut ${res.status}) pour la demande ${demandeId}`,
         );
-      }
-      // Le prescripteur voit ainsi la date du rendez-vous fixe par la kine.
-      if (rdv) {
-        const resRdv = await fetch(`${base}/kine/${demandeId}/rdv`, {
-          method: 'PATCH',
-          headers,
-          body: JSON.stringify({ rdvDate: rdv.date, rdvTime: rdv.heure }),
-        });
-        if (!resRdv.ok) {
-          this.logger.warn(`Impossible de transmettre le RDV (statut ${resRdv.status}) pour la demande ${demandeId}`);
-        }
       }
     } catch {
       this.logger.warn('Service Prescription injoignable pour la notification de statut');
