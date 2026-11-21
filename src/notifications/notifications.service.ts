@@ -6,6 +6,7 @@ import { Notification } from './notification.entity';
 import { PatientsService } from '../patients/patients.service';
 import { RendezVousService } from '../rendezvous/rendezvous.service';
 import { PrescriptionAuthService } from './prescription-auth.service';
+import { jourDuChu } from '../common/jour-chu';
 
 @Injectable()
 export class NotificationsService implements OnModuleInit, OnModuleDestroy {
@@ -275,7 +276,7 @@ export class NotificationsService implements OnModuleInit, OnModuleDestroy {
         adresse: infosAccueil?.adresse || undefined,
         diagnostic: notif.diagnostic || undefined,
         statut: 'actif',
-        dateAdmission: new Date().toISOString().slice(0, 10),
+        dateAdmission: jourDuChu(),
       });
     }
 
