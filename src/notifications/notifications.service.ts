@@ -1,6 +1,6 @@
 import { Injectable, OnModuleInit, OnModuleDestroy, Logger, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { ConfigService } from '@nestjs/config';
 import { Notification } from './notification.entity';
 import { PatientsService } from '../patients/patients.service';
@@ -107,13 +107,13 @@ export class NotificationsService implements OnModuleInit, OnModuleDestroy {
   // Prescription (envoi échoué, ou planifiée sans envoi) est renvoyée.
   private async rattraperStatuts(prescriptions: any[]): Promise<void> {
     const statutDistant = new Map<string, string>(prescriptions.map((p) => [p.id, p.statut]));
-    const locales = await this.repo.find({ where: { statut: 'PLANIFIEE' } });
+    const locales = await this.repo.find({ where: { statut: In(['PLANIFIEE', 'TERMINEE']) } });
     for (const l of locales) {
       if (!statutDistant.has(l.prescriptionId)) continue;
       const statut = statutARenvoyer(
         l.statut,
         statutDistant.get(l.prescriptionId),
-        ['CREEE', 'PLANIFIEE'],
+        ['CREEE', 'PLANIFIEE', 'TERMINEE'],
         ['TERMINEE', 'REALISEE', 'ANNULEE', 'REFUSEE'],
       );
       if (!statut) continue;
@@ -238,7 +238,50 @@ export class NotificationsService implements OnModuleInit, OnModuleDestroy {
   }
 
   async marquerPlanifiee(prescriptionId: string): Promise<void> {
-    await this.repo.update({ prescriptionId }, { statut: 'PLANIFIEE', lue: true });
+    // Jamais en arrière : une demande déjà terminée le reste.
+    await this.repo.update({ prescriptionId, statut: In(['CREEE', 'PLANIFIEE']) }, { statut: 'PLANIFIEE', lue: true });
+  }
+
+  // Comme marquerPlanifiee ; si la demande n'a pas encore été récupérée par la
+  // synchronisation, elle est créée ici (sinon elle ne le serait jamais : la
+  // synchronisation ne prend que les demandes encore « créées »).
+  async marquerPlanifieeOuCreer(prescriptionId: string, patientId?: string): Promise<void> {
+    const existe = await this.repo.findOne({ where: { prescriptionId } });
+    if (existe) {
+      await this.marquerPlanifiee(prescriptionId);
+      return;
+    }
+    if (!patientId) return;
+    await this.repo.save(
+      this.repo.create({
+        prescriptionId,
+        demandeId: prescriptionId,
+        patientId,
+        statut: 'PLANIFIEE',
+        lue: true,
+        source: 'prescription',
+      }),
+    );
+  }
+
+  /**
+   * Fin de la prise en charge : les demandes planifiées du patient passent à
+   * « terminée » ; le service Prescription en est informé (il prévient le
+   * prescripteur), sinon le rattrapage renverra le statut. Le patient est archivé.
+   */
+  async terminerPriseEnCharge(patientId: number): Promise<{ demandesTerminees: number }> {
+    const patient = await this.patientsService.findOne(patientId);
+    const demandes = patient.numeroDossier
+      ? await this.repo.find({ where: { patientId: patient.numeroDossier, statut: 'PLANIFIEE' } })
+      : [];
+    for (const d of demandes) {
+      await this.repo.update(d.id, { statut: 'TERMINEE', lue: true });
+      const cle = `${d.prescriptionId}:TERMINEE`;
+      const ok = await this.envoyerStatut(d.demandeId || d.prescriptionId, 'TERMINEE');
+      this.rattrapage.resultat(cle, ok);
+    }
+    await this.patientsService.archiver(patientId);
+    return { demandesTerminees: demandes.length };
   }
 
   // Recupere les infos personnelles du patient depuis le service Accueil.
@@ -301,6 +344,11 @@ export class NotificationsService implements OnModuleInit, OnModuleDestroy {
     let patient = (await this.patientsService.findAll()).find(
       (p) => p.numeroDossier === notif.patientId,
     );
+
+    if (patient && patient.statut === 'archive') {
+      // Nouvelle prescription pour un patient dont la prise en charge était close.
+      patient = await this.patientsService.update(patient.id, { statut: 'actif' });
+    }
 
     if (!patient) {
       patient = await this.patientsService.create({

@@ -32,6 +32,23 @@ export class NotificationsController {
     return this.service.marquerPlanifieeParId(+id);
   }
 
+  // Planification faite depuis la page « Demandes » du front (par prescription).
+  @Patch('prescription/:prescriptionId/planifiee')
+  async marquerPlanifieeParPrescription(
+    @Param('prescriptionId') prescriptionId: string,
+    @Body() body: { patientId?: string },
+  ) {
+    await this.service.marquerPlanifieeOuCreer(prescriptionId, body?.patientId);
+    return { ok: true };
+  }
+
+  // Fin de la prise en charge d'un patient local : ses demandes planifiées
+  // passent à « terminée » (envoyé au service Prescription) et il est archivé.
+  @Post('terminer-patient/:patientId')
+  terminerPriseEnCharge(@Param('patientId') patientId: string) {
+    return this.service.terminerPriseEnCharge(+patientId);
+  }
+
   // Planifie un rendez-vous a partir d'une notification (body: { dateRdv: string ISO })
   @Post(':id/planifier')
   async planifier(

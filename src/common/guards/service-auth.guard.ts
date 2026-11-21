@@ -13,6 +13,9 @@ export class ServiceAuthGuard implements CanActivate {
 
   canActivate(context: ExecutionContext): boolean {
     const request = context.switchToHttp().getRequest();
+    // Page de santé (« Hello World ») : seule route publique, sans donnée.
+    const chemin = String(request.path ?? request.url ?? '').replace(/\/+$/, '');
+    if (request.method === 'GET' && chemin === '/kine/api') return true;
     const authHeader = request.headers['authorization'];
 
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
@@ -27,6 +30,10 @@ export class ServiceAuthGuard implements CanActivate {
         "Configuration serveur incomplete (JWT_SECRET manquant)",
       );
     }
+
+    // Jeton de service partagé (appels serveur à serveur), comme la passerelle.
+    const jetonService = this.config.get<string>('SERVICE_API_TOKEN');
+    if (jetonService && token.trim() === jetonService.trim()) return true;
 
     try {
       const payload = jwt.verify(token, secret);

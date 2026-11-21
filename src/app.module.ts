@@ -1,4 +1,6 @@
 import { Module } from '@nestjs/common';
+import { APP_GUARD } from '@nestjs/core';
+import { ServiceAuthGuard } from './common/guards/service-auth.guard';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
@@ -36,5 +38,8 @@ import { SeancesModule } from './seances/seances.module';
     SeancesModule,
   ],
   controllers: [AppController],
+  // Toutes les routes exigent un jeton (patients, séances, rendez-vous…) :
+  // l'adresse directe du service renvoyait les dossiers sans authentification.
+  providers: [{ provide: APP_GUARD, useClass: ServiceAuthGuard }],
 })
 export class AppModule {}
