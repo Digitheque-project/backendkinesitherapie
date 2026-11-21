@@ -53,4 +53,22 @@ export class Patient {
   remarques: string;
   @Column({ nullable: true })
   nomMedecinPrescripteur: string;
+
+  // Bilan kinésithérapique du patient (établi puis complété au fil des
+  // séances). Gardé avant dans le seul navigateur du soignant : perdu d'un
+  // poste à l'autre. Colonnes ajoutées, nullables : sans risque pour synchronize.
+  @Column({ nullable: true })
+  religion: string;
+
+  @Column({ type: 'text', nullable: true })
+  histoireMaladie: string;
+
+  @Column({ type: 'text', nullable: true })
+  bilanFonctionnel: string;
+
+  @Column({ type: 'text', nullable: true })
+  bilanIncapacite: string;
+
+  @Column({ type: 'text', nullable: true })
+  diagnosticKine: string;
 }

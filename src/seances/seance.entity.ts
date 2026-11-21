@@ -47,6 +47,10 @@ export class Seance {
   @Column({ nullable: true })
   kine: string;
 
+  // Consultation ou soin.
+  @Column({ nullable: true })
+  type: string;
+
   @Column({ default: false })
   valide: boolean;
 

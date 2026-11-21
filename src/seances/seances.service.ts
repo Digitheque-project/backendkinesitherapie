@@ -28,7 +28,8 @@ export class SeancesService {
   }
 
   create(data: Partial<Seance>): Promise<Seance> {
-    const seance = this.repo.create(data);
+    // Une séance enregistrée par le front est une séance faite et validée.
+    const seance = this.repo.create({ valide: true, ...data });
     return this.repo.save(seance);
   }
 
