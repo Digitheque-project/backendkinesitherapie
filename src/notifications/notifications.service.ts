@@ -7,11 +7,13 @@ import { PatientsService } from '../patients/patients.service';
 import { RendezVousService } from '../rendezvous/rendezvous.service';
 import { PrescriptionAuthService } from './prescription-auth.service';
 import { jourDuChu } from '../common/jour-chu';
+import { RattrapageStatuts, statutARenvoyer } from '../common/rattrapage-statut';
 
 @Injectable()
 export class NotificationsService implements OnModuleInit, OnModuleDestroy {
   private readonly logger = new Logger('NotificationsService');
   private timer: NodeJS.Timeout | null = null;
+  private readonly rattrapage = new RattrapageStatuts();
 
   constructor(
     @InjectRepository(Notification)
@@ -69,6 +71,8 @@ export class NotificationsService implements OnModuleInit, OnModuleDestroy {
     }
     if (!Array.isArray(prescriptions)) return;
 
+    await this.rattraperStatuts(prescriptions);
+
     for (const p of prescriptions) {
       // Pour les prescriptions KINE, le statut est directement sur l'objet
       // (pas de sous-tableau "demandes" imbrique).
@@ -96,6 +100,49 @@ export class NotificationsService implements OnModuleInit, OnModuleDestroy {
       this.logger.log(`Nouvelle demande kiné reçue : ${p.patientId}`);
 
       this.pousserVersServiceExterne(notif).catch(() => {});
+    }
+  }
+
+  // Rattrapage : une demande planifiée ici mais restée « créée » côté service
+  // Prescription (envoi échoué, ou planifiée sans envoi) est renvoyée.
+  private async rattraperStatuts(prescriptions: any[]): Promise<void> {
+    const statutDistant = new Map<string, string>(prescriptions.map((p) => [p.id, p.statut]));
+    const locales = await this.repo.find({ where: { statut: 'PLANIFIEE' } });
+    for (const l of locales) {
+      if (!statutDistant.has(l.prescriptionId)) continue;
+      const statut = statutARenvoyer(
+        l.statut,
+        statutDistant.get(l.prescriptionId),
+        ['CREEE', 'PLANIFIEE'],
+        ['TERMINEE', 'REALISEE', 'ANNULEE', 'REFUSEE'],
+      );
+      if (!statut) continue;
+      const cle = `${l.prescriptionId}:${statut}`;
+      if (!this.rattrapage.peutTenter(cle)) continue;
+      const ok = await this.envoyerStatut(l.demandeId || l.prescriptionId, statut);
+      this.rattrapage.resultat(cle, ok);
+      if (ok) this.logger.log(`Rattrapage : statut ${statut} renvoyé pour la prescription ${l.prescriptionId}`);
+    }
+  }
+
+  // Envoie un statut au service Prescription ; false si l'envoi a échoué.
+  private async envoyerStatut(demandeId: string, statut: string): Promise<boolean> {
+    const base = this.prescriptionBase;
+    if (!base) return false;
+    try {
+      // Routes PATCH du service Prescription (PUT renvoyait 404).
+      const res = await fetch(`${base}/kine/${demandeId}/statut`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json', ...(await this.prescriptionAuth.authHeaders()) },
+        body: JSON.stringify({ statut }),
+      });
+      if (!res.ok) {
+        this.logger.warn(`Impossible de notifier Prescription (statut ${res.status}) pour la demande ${demandeId}`);
+      }
+      return res.ok;
+    } catch {
+      this.logger.warn('Service Prescription injoignable pour la notification de statut');
+      return false;
     }
   }
 
@@ -237,17 +284,7 @@ export class NotificationsService implements OnModuleInit, OnModuleDestroy {
           this.logger.warn(`Impossible de transmettre le RDV (statut ${resRdv.status}) pour la demande ${demandeId}`);
         }
       }
-      // Routes PATCH du service Prescription (PUT renvoyait 404).
-      const res = await fetch(`${base}/kine/${demandeId}/statut`, {
-        method: 'PATCH',
-        headers,
-        body: JSON.stringify({ statut: 'PLANIFIEE' }),
-      });
-      if (!res.ok) {
-        this.logger.warn(
-          `Impossible de notifier Prescription (statut ${res.status}) pour la demande ${demandeId}`,
-        );
-      }
+      await this.envoyerStatut(demandeId, 'PLANIFIEE');
     } catch {
       this.logger.warn('Service Prescription injoignable pour la notification de statut');
     }
