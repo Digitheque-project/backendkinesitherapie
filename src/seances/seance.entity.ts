@@ -32,6 +32,18 @@ export class Seance {
   @Column({ type: 'text', nullable: true })
   diagnosticKine: string;
 
+  // Données de la prescription en cours au moment de la séance : la fiche
+  // patient est réécrite à chaque nouvelle prescription, les archives d'une
+  // ancienne séance doivent garder SA prescription.
+  @Column({ type: 'text', nullable: true })
+  diagnostic: string;
+
+  @Column({ type: 'text', nullable: true })
+  objectifs: string;
+
+  @Column({ nullable: true })
+  nomMedecinPrescripteur: string;
+
   @Column({ type: 'text', nullable: true })
   bilan: string;
 

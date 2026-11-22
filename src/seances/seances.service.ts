@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Seance } from './seance.entity';
+import { Patient } from '../patients/patient.entity';
 
 @Injectable()
 export class SeancesService {
@@ -27,9 +28,23 @@ export class SeancesService {
     });
   }
 
-  create(data: Partial<Seance>): Promise<Seance> {
+  async create(data: Partial<Seance>): Promise<Seance> {
+    // Instantané de la prise en charge en cours (prescription, bilan) : la
+    // fiche patient change à la prescription suivante, pas la séance.
+    const patient = data.patientId
+      ? await this.repo.manager.findOne(Patient, { where: { id: data.patientId } })
+      : null;
+    const bilanPatient = [patient?.bilanFonctionnel, patient?.bilanIncapacite].filter(Boolean).join(' — ');
     // Une séance enregistrée par le front est une séance faite et validée.
-    const seance = this.repo.create({ valide: true, ...data });
+    const seance = this.repo.create({
+      valide: true,
+      diagnostic: patient?.diagnostic || undefined,
+      objectifs: patient?.objectifs || undefined,
+      nomMedecinPrescripteur: patient?.nomMedecinPrescripteur || undefined,
+      diagnosticKine: patient?.diagnosticKine || undefined,
+      bilan: bilanPatient || undefined,
+      ...Object.fromEntries(Object.entries(data).filter(([, v]) => v !== undefined && v !== null && v !== '')),
+    });
     return this.repo.save(seance);
   }
 
