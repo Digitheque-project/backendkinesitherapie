@@ -37,6 +37,10 @@ export class Notification {
   @Column({ type: 'text', nullable: true })
   renseignements: string;
 
+  // Nom affichable du médecin prescripteur (résolu par le service Prescription).
+  @Column({ nullable: true })
+  nomMedecinPrescripteur: string;
+
   // CREEE (reçue) | PLANIFIEE (RDV créé)
   @Column({ default: 'CREEE' })
   statut: string;

@@ -72,16 +72,20 @@ export class NotificationsService implements OnModuleInit, OnModuleDestroy {
     if (!Array.isArray(prescriptions)) return;
 
     await this.rattraperStatuts(prescriptions);
+    await this.completerPrescripteurPatients(prescriptions);
 
     for (const p of prescriptions) {
-      // Pour les prescriptions KINE, le statut est directement sur l'objet
-      // (pas de sous-tableau "demandes" imbrique).
-      if (p.statut !== 'CREEE') continue;
-
+      const nomMedecin = p.prescripteurAffiche || p.nomMedecinPrescripteur || null;
       const exists = await this.repo.findOne({
         where: { prescriptionId: p.id },
       });
-      if (exists) continue;
+      // Demandes reçues avant que le nom soit transmis : complété au passage.
+      if (exists && !exists.nomMedecinPrescripteur && nomMedecin) {
+        await this.repo.update(exists.id, { nomMedecinPrescripteur: nomMedecin });
+      }
+      // Pour les prescriptions KINE, le statut est directement sur l'objet
+      // (pas de sous-tableau "demandes" imbrique).
+      if (p.statut !== 'CREEE' || exists) continue;
 
       const notif = this.repo.create({
         prescriptionId: p.id,
@@ -92,6 +96,7 @@ export class NotificationsService implements OnModuleInit, OnModuleDestroy {
         diagnostic: p.diagnostic,
         objectifs: p.objectifs,
         renseignements: p.renseignements,
+        nomMedecinPrescripteur: nomMedecin,
         statut: 'CREEE',
         lue: false,
         source: 'prescription',
@@ -100,6 +105,24 @@ export class NotificationsService implements OnModuleInit, OnModuleDestroy {
       this.logger.log(`Nouvelle demande kiné reçue : ${p.patientId}`);
 
       this.pousserVersServiceExterne(notif).catch(() => {});
+    }
+  }
+
+  // Patients créés avant que le nom du prescripteur soit transmis : complétés
+  // avec la prescription la plus récente qui le porte (liste triée récente d'abord).
+  private async completerPrescripteurPatients(prescriptions: any[]): Promise<void> {
+    const sansNom = (await this.patientsService.findAll()).filter(
+      (pt) => pt.numeroDossier && !pt.nomMedecinPrescripteur,
+    );
+    for (const pt of sansNom) {
+      const p = prescriptions.find(
+        (x) => x.patientId === pt.numeroDossier && (x.prescripteurAffiche || x.nomMedecinPrescripteur),
+      );
+      if (p) {
+        await this.patientsService.update(pt.id, {
+          nomMedecinPrescripteur: p.prescripteurAffiche || p.nomMedecinPrescripteur,
+        });
+      }
     }
   }
 
@@ -280,6 +303,14 @@ export class NotificationsService implements OnModuleInit, OnModuleDestroy {
       const ok = await this.envoyerStatut(d.demandeId || d.prescriptionId, 'TERMINEE');
       this.rattrapage.resultat(cle, ok);
     }
+    // Rendez-vous restés ouverts : celui commencé est effectué, les suivants
+    // annulés (sinon ils restaient au tableau de bord et au calendrier).
+    const aujourdhui = jourDuChu();
+    for (const r of await this.rendezVousService.findAll()) {
+      if (r.patientId !== patientId) continue;
+      if (r.statut === 'en_cours') await this.rendezVousService.update(r.id, { statut: 'effectue' });
+      else if (r.statut === 'planifie' && r.date >= aujourdhui) await this.rendezVousService.update(r.id, { statut: 'annule' });
+    }
     await this.patientsService.archiver(patientId);
     return { demandesTerminees: demandes.length };
   }
@@ -345,9 +376,12 @@ export class NotificationsService implements OnModuleInit, OnModuleDestroy {
       (p) => p.numeroDossier === notif.patientId,
     );
 
-    if (patient && patient.statut === 'archive') {
+    if (patient && (patient.statut === 'archive' || (notif.nomMedecinPrescripteur && !patient.nomMedecinPrescripteur))) {
       // Nouvelle prescription pour un patient dont la prise en charge était close.
-      patient = await this.patientsService.update(patient.id, { statut: 'actif' });
+      patient = await this.patientsService.update(patient.id, {
+        statut: 'actif',
+        ...(notif.nomMedecinPrescripteur ? { nomMedecinPrescripteur: notif.nomMedecinPrescripteur } : {}),
+      });
     }
 
     if (!patient) {
@@ -360,6 +394,7 @@ export class NotificationsService implements OnModuleInit, OnModuleDestroy {
         telephone: infosAccueil?.telephone || undefined,
         adresse: infosAccueil?.adresse || undefined,
         diagnostic: notif.diagnostic || undefined,
+        nomMedecinPrescripteur: notif.nomMedecinPrescripteur || undefined,
         statut: 'actif',
         dateAdmission: jourDuChu(),
       });
