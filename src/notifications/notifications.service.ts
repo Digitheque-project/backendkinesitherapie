@@ -173,6 +173,9 @@ export class NotificationsService implements OnModuleInit, OnModuleDestroy {
     const url = this.prescriptionAuth.gatewayUrl;
     const sid = (await this.prescriptionAuth.getIdentity())?.serviceId;
     if (!url || !sid) return;
+    // Nom du patient (Accueil) plutôt que son identifiant brut (26/11/2026).
+    const p = await this.recupererPatientAccueil(n.patientId).catch(() => null);
+    const nomPatient = [p?.prenom, p?.nom].filter(Boolean).join(' ').trim() || 'patient non identifié';
     try {
       // La passerelle exige un jeton sur /notifications (requiresAuth).
       await fetch(`${url}/notifications/service`, {
@@ -181,12 +184,14 @@ export class NotificationsService implements OnModuleInit, OnModuleDestroy {
         body: JSON.stringify({
           serviceId: sid,
           title: 'Nouvelle demande kiné',
-          message: `Prescription kiné pour le patient ${n.patientId}`,
+          message: `Prescription kiné pour ${nomPatient}`,
           type: 'demande_created',
           source: 'kine-back',
           data: {
             prescriptionId: n.prescriptionId,
             patientId: n.patientId,
+            patientNom: p?.nom || null,
+            patientPrenom: p?.prenom || null,
             typeKine: n.typeKine,
           },
         }),
@@ -375,6 +380,17 @@ export class NotificationsService implements OnModuleInit, OnModuleDestroy {
     let patient = (await this.patientsService.findAll()).find(
       (p) => p.numeroDossier === notif.patientId,
     );
+
+    // Patient créé « Inconnu » parce que l'Accueil ne répondait pas : son vrai
+    // nom est repris dès que l'Accueil répond (avant, il restait inconnu).
+    if (patient && infosAccueil && (patient.nom === 'Inconnu' || !patient.nom)) {
+      patient = await this.patientsService.update(patient.id, {
+        nom: infosAccueil.nom || patient.nom,
+        prenom: infosAccueil.prenom || patient.prenom,
+        ...(infosAccueil.dateNaissance ? { dateNaissance: infosAccueil.dateNaissance } : {}),
+        ...(infosAccueil.sexe ? { sexe: infosAccueil.sexe } : {}),
+      } as any);
+    }
 
     if (patient && (patient.statut === 'archive' || (notif.nomMedecinPrescripteur && !patient.nomMedecinPrescripteur))) {
       // Nouvelle prescription pour un patient dont la prise en charge était close.
