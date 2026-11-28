@@ -20,11 +20,11 @@ export class RendezVousService {
   // Rendez-vous ajouté ou déplacé par le kinésithérapeute (séances suivantes) :
   // branché par NotificationsService pour prévenir le service prescripteur
   // (28/11/2026). Pas d'import direct : NotificationsService dépend déjà d'ici.
-  surNouveauRdv?: (rdv: RendezVous) => void;
+  surNouveauRdv?: (rdv: RendezVous, deplacement: boolean) => void;
 
-  signalerNouveauRdv(rdv: RendezVous): void {
+  signalerNouveauRdv(rdv: RendezVous, deplacement = false): void {
     try {
-      this.surNouveauRdv?.(rdv);
+      this.surNouveauRdv?.(rdv, deplacement);
     } catch {
       /* non bloquant */
     }

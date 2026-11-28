@@ -27,7 +27,7 @@ export class RendezVousController {
   async update(@Param('id') id: string, @Body() data: Partial<RendezVous>): Promise<RendezVous> {
     const rdv = await this.service.update(+id, data);
     // Rendez-vous déplacé : le prescripteur reçoit la nouvelle date.
-    if ((data.date || data.heureDebut) && rdv.statut === 'planifie') this.service.signalerNouveauRdv(rdv);
+    if ((data.date || data.heureDebut) && rdv.statut === 'planifie') this.service.signalerNouveauRdv(rdv, true);
     return rdv;
   }
 

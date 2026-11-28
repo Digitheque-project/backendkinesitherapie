@@ -25,8 +25,8 @@ export class NotificationsService implements OnModuleInit, OnModuleDestroy {
   ) {}
 
   onModuleInit() {
-    this.rendezVousService.surNouveauRdv = (rdv) => {
-      this.transmettreRdvSuivant(rdv).catch(() => {});
+    this.rendezVousService.surNouveauRdv = (rdv, deplacement) => {
+      this.transmettreRdvSuivant(rdv, deplacement).catch(() => {});
     };
     // 60 s par défaut (était 30 s) : les interrogations passent par la passerelle,
     // bloquée par le pare-feu de l'hébergeur au-delà d'un certain débit (429).
@@ -375,7 +375,7 @@ export class NotificationsService implements OnModuleInit, OnModuleDestroy {
   // Séance suivante (ou rendez-vous déplacé) : le service prescripteur en est
   // informé comme pour la première séance (28/11/2026 — la Chirurgie ne
   // recevait rien à partir de la deuxième séance).
-  private async transmettreRdvSuivant(rdv: { id: number; patientId: number; date: string; heureDebut: string }): Promise<void> {
+  private async transmettreRdvSuivant(rdv: { id: number; patientId: number; date: string; heureDebut: string }, deplacement = false): Promise<void> {
     const patient = (await this.patientsService.findAll()).find((p) => p.id === rdv.patientId);
     if (!patient?.numeroDossier) return;
     const demandes = await this.repo.find({ where: { patientId: patient.numeroDossier }, order: { id: 'DESC' } });
@@ -387,7 +387,8 @@ export class NotificationsService implements OnModuleInit, OnModuleDestroy {
     const autres = (await this.rendezVousService.findAll()).filter(
       (r) => r.patientId === rdv.patientId && r.id !== rdv.id && String(r.date).slice(0, 10) >= depuis,
     );
-    if (autres.length === 0) return;
+    // Un déplacement est toujours transmis, même celui du premier rendez-vous.
+    if (autres.length === 0 && !deplacement) return;
     const base = this.prescriptionBase;
     if (!base) return;
     const res = await fetch(`${base}/kine/${demande.demandeId}/rdv`, {
