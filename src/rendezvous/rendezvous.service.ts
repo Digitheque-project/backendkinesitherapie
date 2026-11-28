@@ -17,6 +17,19 @@ export class RendezVousService {
     private patientRepo: Repository<Patient>,
   ) {}
 
+  // Rendez-vous ajouté ou déplacé par le kinésithérapeute (séances suivantes) :
+  // branché par NotificationsService pour prévenir le service prescripteur
+  // (28/11/2026). Pas d'import direct : NotificationsService dépend déjà d'ici.
+  surNouveauRdv?: (rdv: RendezVous) => void;
+
+  signalerNouveauRdv(rdv: RendezVous): void {
+    try {
+      this.surNouveauRdv?.(rdv);
+    } catch {
+      /* non bloquant */
+    }
+  }
+
   async findAll(): Promise<RendezVous[]> {
     return this.repo.find({ relations: { patient: true } });
   }

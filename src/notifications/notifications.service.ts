@@ -25,6 +25,9 @@ export class NotificationsService implements OnModuleInit, OnModuleDestroy {
   ) {}
 
   onModuleInit() {
+    this.rendezVousService.surNouveauRdv = (rdv) => {
+      this.transmettreRdvSuivant(rdv).catch(() => {});
+    };
     // 60 s par défaut (était 30 s) : les interrogations passent par la passerelle,
     // bloquée par le pare-feu de l'hébergeur au-delà d'un certain débit (429).
     const interval = Number(this.config.get('POLL_INTERVAL_MS')) || 60000;
@@ -367,6 +370,32 @@ export class NotificationsService implements OnModuleInit, OnModuleDestroy {
     } catch {
       this.logger.warn('Service Prescription injoignable pour la notification de statut');
     }
+  }
+
+  // Séance suivante (ou rendez-vous déplacé) : le service prescripteur en est
+  // informé comme pour la première séance (28/11/2026 — la Chirurgie ne
+  // recevait rien à partir de la deuxième séance).
+  private async transmettreRdvSuivant(rdv: { id: number; patientId: number; date: string; heureDebut: string }): Promise<void> {
+    const patient = (await this.patientsService.findAll()).find((p) => p.id === rdv.patientId);
+    if (!patient?.numeroDossier) return;
+    const demandes = await this.repo.find({ where: { patientId: patient.numeroDossier }, order: { id: 'DESC' } });
+    const demande = demandes.find((d) => !['TERMINEE', 'REFUSEE', 'ANNULEE'].includes(String(d.statut || '').toUpperCase())) ?? demandes[0];
+    if (!demande?.demandeId) return;
+    // Premier rendez-vous de cette prescription : déjà transmis par la
+    // planification elle-même (pas de doublon chez le prescripteur).
+    const depuis = new Date(demande.createdAt).toISOString().slice(0, 10);
+    const autres = (await this.rendezVousService.findAll()).filter(
+      (r) => r.patientId === rdv.patientId && r.id !== rdv.id && String(r.date).slice(0, 10) >= depuis,
+    );
+    if (autres.length === 0) return;
+    const base = this.prescriptionBase;
+    if (!base) return;
+    const res = await fetch(`${base}/kine/${demande.demandeId}/rdv`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json', ...(await this.prescriptionAuth.authHeaders()) },
+      body: JSON.stringify({ rdvDate: String(rdv.date).slice(0, 10), rdvTime: String(rdv.heureDebut || '').slice(0, 5) }),
+    }).catch(() => null);
+    if (!res?.ok) this.logger.warn(`Rendez-vous suivant non transmis au prescripteur (demande ${demande.demandeId})`);
   }
 
   // Planifie un rendez-vous a partir d'une notification : recupere le patient (Accueil),

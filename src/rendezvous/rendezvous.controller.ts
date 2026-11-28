@@ -17,13 +17,18 @@ export class RendezVousController {
   }
 
   @Post()
-  create(@Body() data: Partial<RendezVous>): Promise<RendezVous> {
-    return this.service.create(data);
+  async create(@Body() data: Partial<RendezVous>): Promise<RendezVous> {
+    const rdv = await this.service.create(data);
+    this.service.signalerNouveauRdv(rdv);
+    return rdv;
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() data: Partial<RendezVous>): Promise<RendezVous> {
-    return this.service.update(+id, data);
+  async update(@Param('id') id: string, @Body() data: Partial<RendezVous>): Promise<RendezVous> {
+    const rdv = await this.service.update(+id, data);
+    // Rendez-vous déplacé : le prescripteur reçoit la nouvelle date.
+    if ((data.date || data.heureDebut) && rdv.statut === 'planifie') this.service.signalerNouveauRdv(rdv);
+    return rdv;
   }
 
   @Delete(':id')
